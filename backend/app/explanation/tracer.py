@@ -36,7 +36,7 @@ class ExplanationTracer:
         Limpia un poco la condición nativa de Python para que el usuario final
         (ciudadano o autoridad) la lea más amigable.
         """
-        texto = condicion.replace("==", "=").replace("and", "Y").replace("or", "O")
+        texto = condicion.replace("==", "=").replace(" and ", " Y ").replace(" or ", " O ")
         # Quitar comillas simples extrañas
         texto = texto.replace("'", "")
         return texto
