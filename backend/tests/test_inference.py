@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.inference.working_memory import WorkingMemory
 from app.inference.engine import ForwardChainingEngine
+from app.explanation.tracer import ExplanationTracer
 
 def test_inference_engine_susceptibilidad_alta():
     # 1. Configuramos los hechos de entrada (input del usuario)
@@ -38,6 +39,16 @@ def test_inference_engine_susceptibilidad_alta():
     print("[OK] Todos los asserts pasaron exitosamente.")
     print("Hechos finales en memoria:", memoria_final.a_diccionario())
     print("Reglas disparadas:", traza_reglas)
+    
+    # 6. Probando el Módulo de Explicación
+    print("\n--- JUSTIFICACIÓN DEL SISTEMA EXPERTO ---")
+    explicador = ExplanationTracer(rules_path="app/knowledge/reglas.json")
+    justificacion = explicador.generar_explicacion(traza_reglas)
+    
+    for paso in justificacion:
+        print(f"\nPaso {paso['paso']} (Regla {paso['regla_id']} - {paso['descripcion']})")
+        print(f"   {paso['por_que']}")
+        print(f"   => {paso['deduccion']}")
 
 if __name__ == '__main__':
     test_inference_engine_susceptibilidad_alta()
