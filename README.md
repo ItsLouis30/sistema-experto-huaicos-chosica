@@ -73,8 +73,32 @@ sistema-experto-g8/
 
 ---
 
-## 🚀 Próximos Pasos / Cómo Contribuir
-1. Empezaremos construyendo la **Base de Conocimiento (BC)** estructurando las reglas en JSON.
-2. Luego se implementará el **Motor de Inferencia** en Python puro.
-3. Se levantará **FastAPI** para exponer el motor mediante la red.
-4. Integración final con el **Frontend**.
+## 🚀 Cómo Ejecutar el Proyecto (Backend)
+
+Todo el núcleo del Sistema Experto y la API ya están implementados. Sigue estos pasos para levantar el servidor localmente:
+
+1. **Abre tu terminal** y ubícate en la carpeta del backend:
+   ```bash
+   cd backend
+   ```
+
+2. **Instala las dependencias**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Inicia el servidor FastAPI**:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+4. **Prueba la API y el Motor**:
+   Abre tu navegador en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). 
+   Ahí verás la interfaz de Swagger (OpenAPI) donde puedes probar el endpoint `/api/evaluar`. Ingresa un JSON de prueba y observa cómo el sistema te devuelve el nivel de riesgo y la justificación generada por el Módulo de Explicación.
+
+### 🧪 Ejecutar Pruebas Unitarias
+Para verificar el funcionamiento lógico del encadenamiento hacia adelante y la Base de Hechos sin levantar el servidor:
+```bash
+cd backend
+python tests/test_inference.py
+```
