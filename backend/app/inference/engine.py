@@ -24,10 +24,8 @@ class ForwardChainingEngine:
         Soporta operadores como ==, >=, <=, <, and, or, ().
         """
         try:
-            # Deshabilitamos __builtins__ por seguridad.
-            # Los 'hechos' se pasan como el diccionario de variables locales, 
-            # así que una condición como "pendiente_terreno == 'alta'" se evalúa correctamente.
-            resultado = eval(condicion, {"__builtins__": None}, hechos)
+            # Deshabilitamos __builtins__ por seguridad pasándolo como diccionario vacío.
+            resultado = eval(condicion, {"__builtins__": {}}, hechos)
             return bool(resultado)
         except NameError:
             # Ocurre cuando la regla pregunta por una variable que AÚN NO existe en la Base de Hechos.
