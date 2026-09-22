@@ -1,0 +1,629 @@
+{
+    "diccionario": {
+        "variables_entrada": [
+            "pendiente_terreno",
+            "tipo_suelo_superficial",
+            "antecedente_activacion",
+            "aviso_senamhi",
+            "precipitacion_72h",
+            "dist_quebrada",
+            "ubic_cono_deyeccion",
+            "obra_mitigacion_cercana",
+            "estado_obra_mitigacion",
+            "material_vivienda",
+            "ruta_evacuacion_segura",
+            "acceso_emergencia",
+            "sistema_alerta_local"
+        ],
+        "variables_deducidas": [
+            "susceptibilidad_base",
+            "recurrencia",
+            "susceptibilidad_terreno",
+            "detonante_meteorologico",
+            "nivel_peligro",
+            "exposicion_bruta",
+            "exposicion_ajustada",
+            "fragilidad_fisica",
+            "capacidad_respuesta",
+            "nivel_vulnerabilidad",
+            "nivel_riesgo",
+            "nivel_alerta"
+        ]
+    },
+    "reglas": [
+        {
+            "id": "R1",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Susceptibilidad Física Alta",
+            "condicion": "pendiente_terreno == 'alta' and tipo_suelo_superficial == 'material_suelto'",
+            "objetivo": {
+                "susceptibilidad_base": "alta"
+            }
+        },
+        {
+            "id": "R2",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Susceptibilidad Física Media por Roca en Pendiente Fuerte",
+            "condicion": "pendiente_terreno == 'alta' and tipo_suelo_superficial == 'roca_consolidada'",
+            "objetivo": {
+                "susceptibilidad_base": "media"
+            }
+        },
+        {
+            "id": "R3",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Susceptibilidad Física Media por Pendiente Moderada",
+            "condicion": "pendiente_terreno == 'media' and tipo_suelo_superficial == 'material_suelto'",
+            "objetivo": {
+                "susceptibilidad_base": "media"
+            }
+        },
+        {
+            "id": "R4",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Susceptibilidad Física Baja en Pendiente Moderada",
+            "condicion": "pendiente_terreno == 'media' and tipo_suelo_superficial == 'roca_consolidada'",
+            "objetivo": {
+                "susceptibilidad_base": "baja"
+            }
+        },
+        {
+            "id": "R5",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Susceptibilidad Física Baja por Pendiente Plana",
+            "condicion": "pendiente_terreno == 'baja'",
+            "objetivo": {
+                "susceptibilidad_base": "baja"
+            }
+        },
+        {
+            "id": "R6",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Recurrencia Histórica Alta",
+            "condicion": "antecedente_activacion == 'sí'",
+            "objetivo": {
+                "recurrencia": "alta"
+            }
+        },
+        {
+            "id": "R7",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Recurrencia Histórica Baja",
+            "condicion": "antecedente_activacion == 'no'",
+            "objetivo": {
+                "recurrencia": "baja"
+            }
+        },
+        {
+            "id": "R8",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Paso Directo de Susceptibilidad Alta",
+            "condicion": "susceptibilidad_base == 'alta'",
+            "objetivo": {
+                "susceptibilidad_terreno": "alta"
+            }
+        },
+        {
+            "id": "R9",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Agravante Histórico sobre Susceptibilidad Media",
+            "condicion": "susceptibilidad_base == 'media' and recurrencia == 'alta'",
+            "objetivo": {
+                "susceptibilidad_terreno": "alta"
+            }
+        },
+        {
+            "id": "R10",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Mantenimiento de Susceptibilidad Media",
+            "condicion": "susceptibilidad_base == 'media' and recurrencia == 'baja'",
+            "objetivo": {
+                "susceptibilidad_terreno": "media"
+            }
+        },
+        {
+            "id": "R11",
+            "modulo": "CONDICIONES FÍSICAS Y SUSCEPTIBILIDAD (INGEMMET)",
+            "descripcion": "Paso Directo de Susceptibilidad Baja",
+            "condicion": "susceptibilidad_base == 'baja'",
+            "objetivo": {
+                "susceptibilidad_terreno": "baja"
+            }
+        },
+        {
+            "id": "R12",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Alto por Aviso Rojo",
+            "condicion": "aviso_senamhi == 'rojo'",
+            "objetivo": {
+                "detonante_meteorologico": "alto"
+            }
+        },
+        {
+            "id": "R13",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Alto por Aviso Naranja y Lluvia Intensa",
+            "condicion": "aviso_senamhi == 'naranja' and precipitacion_72h >= 60",
+            "objetivo": {
+                "detonante_meteorologico": "alto"
+            }
+        },
+        {
+            "id": "R14",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Medio por Aviso Naranja Moderado",
+            "condicion": "aviso_senamhi == 'naranja' and precipitacion_72h < 60",
+            "objetivo": {
+                "detonante_meteorologico": "medio"
+            }
+        },
+        {
+            "id": "R15",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Medio por Aviso Amarillo",
+            "condicion": "aviso_senamhi == 'amarillo'",
+            "objetivo": {
+                "detonante_meteorologico": "medio"
+            }
+        },
+        {
+            "id": "R16",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Bajo por Aviso Blanco",
+            "condicion": "aviso_senamhi == 'blanco'",
+            "objetivo": {
+                "detonante_meteorologico": "bajo"
+            }
+        },
+        {
+            "id": "R17",
+            "modulo": "DETONANTE METEOROLÓGICO (SENAMHI)",
+            "descripcion": "Detonante Bajo por Ausencia de Aviso",
+            "condicion": "aviso_senamhi == 'sin_aviso'",
+            "objetivo": {
+                "detonante_meteorologico": "bajo"
+            }
+        },
+        {
+            "id": "R18",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Alto Crítico",
+            "condicion": "susceptibilidad_terreno == 'alta' and detonante_meteorologico == 'alto'",
+            "objetivo": {
+                "nivel_peligro": "alto"
+            }
+        },
+        {
+            "id": "R19",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Medio por Detonante Moderado",
+            "condicion": "susceptibilidad_terreno == 'alta' and detonante_meteorologico == 'medio'",
+            "objetivo": {
+                "nivel_peligro": "medio"
+            }
+        },
+        {
+            "id": "R20",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Bajo por Detonante Mínimo en Terreno Susceptible",
+            "condicion": "susceptibilidad_terreno == 'alta' and detonante_meteorologico == 'bajo'",
+            "objetivo": {
+                "nivel_peligro": "bajo"
+            }
+        },
+        {
+            "id": "R21",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Medio por Detonante Alto en Terreno Moderado",
+            "condicion": "susceptibilidad_terreno == 'media' and detonante_meteorologico == 'alto'",
+            "objetivo": {
+                "nivel_peligro": "medio"
+            }
+        },
+        {
+            "id": "R22",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Medio Equilibrado",
+            "condicion": "susceptibilidad_terreno == 'media' and detonante_meteorologico == 'medio'",
+            "objetivo": {
+                "nivel_peligro": "medio"
+            }
+        },
+        {
+            "id": "R23",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Bajo por Detonante Mínimo en Terreno Moderado",
+            "condicion": "susceptibilidad_terreno == 'media' and detonante_meteorologico == 'bajo'",
+            "objetivo": {
+                "nivel_peligro": "bajo"
+            }
+        },
+        {
+            "id": "R24",
+            "modulo": "PELIGRO (MATRIZ CARTESIANA CENEPRED COMPLETA)",
+            "descripcion": "Peligro Bajo por Susceptibilidad Mínima",
+            "condicion": "susceptibilidad_terreno == 'baja'",
+            "objetivo": {
+                "nivel_peligro": "bajo"
+            }
+        },
+        {
+            "id": "R25",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Exposición Bruta Alta por Cercanía",
+            "condicion": "dist_quebrada <= 100",
+            "objetivo": {
+                "exposicion_bruta": "alta"
+            }
+        },
+        {
+            "id": "R26",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Exposición Bruta Media por Cono Lejano",
+            "condicion": "dist_quebrada > 100 and ubic_cono_deyeccion == 'sí'",
+            "objetivo": {
+                "exposicion_bruta": "media"
+            }
+        },
+        {
+            "id": "R27",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Exposición Bruta Baja Fuera de Zona",
+            "condicion": "dist_quebrada > 100 and ubic_cono_deyeccion == 'no'",
+            "objetivo": {
+                "exposicion_bruta": "baja"
+            }
+        },
+        {
+            "id": "R28",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Regla de Validación de Datos (Integridad Semántica)",
+            "condicion": "obra_mitigacion_cercana == 'ausente'",
+            "objetivo": {
+                "estado_obra_mitigacion": "no_aplica"
+            }
+        },
+        {
+            "id": "R29",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Amortiguación de Exposición Alta por Dique Operativo",
+            "condicion": "exposicion_bruta == 'alta' and obra_mitigacion_cercana == 'presente' and estado_obra_mitigacion == 'operativo'",
+            "objetivo": {
+                "exposicion_ajustada": "media"
+            }
+        },
+        {
+            "id": "R30",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Exposición Alta sin Mitigación Funcional",
+            "condicion": "exposicion_bruta == 'alta' and obra_mitigacion_cercana == 'presente' and estado_obra_mitigacion == 'colmatada_o_deteriorada'",
+            "objetivo": {
+                "exposicion_ajustada": "alta"
+            }
+        },
+        {
+            "id": "R31",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Exposición Alta por Ausencia de Obra",
+            "condicion": "exposicion_bruta == 'alta' and estado_obra_mitigacion == 'no_aplica'",
+            "objetivo": {
+                "exposicion_ajustada": "alta"
+            }
+        },
+        {
+            "id": "R32",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Amortiguación de Exposición Media por Dique Operativo",
+            "condicion": "exposicion_bruta == 'media' and obra_mitigacion_cercana == 'presente' and estado_obra_mitigacion == 'operativo'",
+            "objetivo": {
+                "exposicion_ajustada": "baja"
+            }
+        },
+        {
+            "id": "R33",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Mantenimiento de Exposición Media sin Mitigación Funcional",
+            "condicion": "exposicion_bruta == 'media' and (estado_obra_mitigacion == 'colmatada_o_deteriorada' or estado_obra_mitigacion == 'no_aplica')",
+            "objetivo": {
+                "exposicion_ajustada": "media"
+            }
+        },
+        {
+            "id": "R34",
+            "modulo": "EXPOSICIÓN Y MITIGACIÓN ESPACIAL",
+            "descripcion": "Paso Directo de Exposición Baja",
+            "condicion": "exposicion_bruta == 'baja'",
+            "objetivo": {
+                "exposicion_ajustada": "baja"
+            }
+        },
+        {
+            "id": "R35",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Fragilidad Estructural Elevada",
+            "condicion": "material_vivienda == 'precaria'",
+            "objetivo": {
+                "fragilidad_fisica": "alta"
+            }
+        },
+        {
+            "id": "R36",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Fragilidad Estructural Reducida",
+            "condicion": "material_vivienda == 'noble'",
+            "objetivo": {
+                "fragilidad_fisica": "baja"
+            }
+        },
+        {
+            "id": "R37",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Alta (Entorno Óptimo)",
+            "condicion": "ruta_evacuacion_segura == 'sí' and acceso_emergencia == 'facil' and sistema_alerta_local == 'presente'",
+            "objetivo": {
+                "capacidad_respuesta": "alta"
+            }
+        },
+        {
+            "id": "R38",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Media (Falta de Alerta)",
+            "condicion": "ruta_evacuacion_segura == 'sí' and acceso_emergencia == 'facil' and sistema_alerta_local == 'ausente'",
+            "objetivo": {
+                "capacidad_respuesta": "media"
+            }
+        },
+        {
+            "id": "R39",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Media (Acceso Difícil)",
+            "condicion": "ruta_evacuacion_segura == 'sí' and acceso_emergencia == 'dificil' and sistema_alerta_local == 'presente'",
+            "objetivo": {
+                "capacidad_respuesta": "media"
+            }
+        },
+        {
+            "id": "R40",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Media (Solo Ruta Segura)",
+            "condicion": "ruta_evacuacion_segura == 'sí' and acceso_emergencia == 'dificil' and sistema_alerta_local == 'ausente'",
+            "objetivo": {
+                "capacidad_respuesta": "media"
+            }
+        },
+        {
+            "id": "R41",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Media (Factores Comunitarios sin Ruta)",
+            "condicion": "ruta_evacuacion_segura == 'no' and acceso_emergencia == 'facil' and sistema_alerta_local == 'presente'",
+            "objetivo": {
+                "capacidad_respuesta": "media"
+            }
+        },
+        {
+            "id": "R42",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Baja (Ausencia de Alerta y Ruta)",
+            "condicion": "ruta_evacuacion_segura == 'no' and acceso_emergencia == 'facil' and sistema_alerta_local == 'ausente'",
+            "objetivo": {
+                "capacidad_respuesta": "baja"
+            }
+        },
+        {
+            "id": "R43",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Baja (Difícil Acceso sin Ruta)",
+            "condicion": "ruta_evacuacion_segura == 'no' and acceso_emergencia == 'dificil' and sistema_alerta_local == 'presente'",
+            "objetivo": {
+                "capacidad_respuesta": "baja"
+            }
+        },
+        {
+            "id": "R44",
+            "modulo": "FRAGILIDAD Y CAPACIDAD DE RESPUESTA",
+            "descripcion": "Capacidad Baja Crítica",
+            "condicion": "ruta_evacuacion_segura == 'no' and acceso_emergencia == 'dificil' and sistema_alerta_local == 'ausente'",
+            "objetivo": {
+                "capacidad_respuesta": "baja"
+            }
+        },
+        {
+            "id": "R45",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Alta por Fragilidad en Zona Crítica",
+            "condicion": "exposicion_ajustada == 'alta' and fragilidad_fisica == 'alta'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "alta"
+            }
+        },
+        {
+            "id": "R46",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Alta por Incomunicación en Zona Crítica",
+            "condicion": "exposicion_ajustada == 'alta' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'baja'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "alta"
+            }
+        },
+        {
+            "id": "R47",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Capacidad Moderada en Zona Crítica",
+            "condicion": "exposicion_ajustada == 'alta' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'media'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R48",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Alta Respuesta en Zona Crítica",
+            "condicion": "exposicion_ajustada == 'alta' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'alta'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R49",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Alta por Fragilidad en Exposición Media",
+            "condicion": "exposicion_ajustada == 'media' and fragilidad_fisica == 'alta' and capacidad_respuesta == 'baja'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "alta"
+            }
+        },
+        {
+            "id": "R50",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Compensación (Fragilidad Alta, Capacidad Alta)",
+            "condicion": "exposicion_ajustada == 'media' and fragilidad_fisica == 'alta' and capacidad_respuesta == 'alta'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R51",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Compensación (Fragilidad Baja, Capacidad Baja)",
+            "condicion": "exposicion_ajustada == 'media' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'baja'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R52",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media en Entorno Controlado",
+            "condicion": "exposicion_ajustada == 'media' and fragilidad_fisica == 'baja' and (capacidad_respuesta == 'media' or capacidad_respuesta == 'alta')",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R53",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Fragilidad Alta en Zona Segura",
+            "condicion": "exposicion_ajustada == 'baja' and fragilidad_fisica == 'alta'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R54",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Capacidad Baja en Zona Segura",
+            "condicion": "exposicion_ajustada == 'baja' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'baja'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R55",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Media por Capacidad Moderada en Zona Segura",
+            "condicion": "exposicion_ajustada == 'baja' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'media'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "media"
+            }
+        },
+        {
+            "id": "R56",
+            "modulo": "VULNERABILIDAD INTEGRADA (CENEPRED COMPLETO)",
+            "descripcion": "Vulnerabilidad Baja por Entorno Resiliente Integral",
+            "condicion": "exposicion_ajustada == 'baja' and fragilidad_fisica == 'baja' and capacidad_respuesta == 'alta'",
+            "objetivo": {
+                "nivel_vulnerabilidad": "baja"
+            }
+        },
+        {
+            "id": "R57",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Alto Crítico",
+            "condicion": "nivel_peligro == 'alto' and nivel_vulnerabilidad == 'alta'",
+            "objetivo": {
+                "nivel_riesgo": "alto"
+            }
+        },
+        {
+            "id": "R58",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Alto por Predominio de Peligro",
+            "condicion": "nivel_peligro == 'alto' and nivel_vulnerabilidad == 'media'",
+            "objetivo": {
+                "nivel_riesgo": "alto"
+            }
+        },
+        {
+            "id": "R59",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Alto por Predominio de Vulnerabilidad",
+            "condicion": "nivel_peligro == 'medio' and nivel_vulnerabilidad == 'alta'",
+            "objetivo": {
+                "nivel_riesgo": "alto"
+            }
+        },
+        {
+            "id": "R60",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Medio Diagonal",
+            "condicion": "nivel_peligro == 'medio' and nivel_vulnerabilidad == 'media'",
+            "objetivo": {
+                "nivel_riesgo": "medio"
+            }
+        },
+        {
+            "id": "R61",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Medio por Extremos Opuestos (Peligro)",
+            "condicion": "nivel_peligro == 'alto' and nivel_vulnerabilidad == 'baja'",
+            "objetivo": {
+                "nivel_riesgo": "medio"
+            }
+        },
+        {
+            "id": "R62",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Medio por Extremos Opuestos (Vulnerabilidad)",
+            "condicion": "nivel_peligro == 'bajo' and nivel_vulnerabilidad == 'alta'",
+            "objetivo": {
+                "nivel_riesgo": "medio"
+            }
+        },
+        {
+            "id": "R63",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Bajo por Factores Mitigados",
+            "condicion": "nivel_peligro == 'bajo' and nivel_vulnerabilidad == 'media'",
+            "objetivo": {
+                "nivel_riesgo": "bajo"
+            }
+        },
+        {
+            "id": "R64",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Bajo por Peligro Mitigado",
+            "condicion": "nivel_peligro == 'medio' and nivel_vulnerabilidad == 'baja'",
+            "objetivo": {
+                "nivel_riesgo": "bajo"
+            }
+        },
+        {
+            "id": "R65",
+            "modulo": "CLASIFICACIÓN DE RIESGO (BASADO EN RELACIÓN PELIGRO-VULNERABILIDAD DE CENEPRED)",
+            "descripcion": "Riesgo Bajo Mínimo",
+            "condicion": "nivel_peligro == 'bajo' and nivel_vulnerabilidad == 'baja'",
+            "objetivo": {
+                "nivel_riesgo": "bajo"
+            }
+        },
+        {
+            "id": "R66",
+            "modulo": "ALERTAS Y ACCIÓN TERMINAL (INDECI)",
+            "descripcion": "Recomendación de Evacuación Preventiva",
+            "condicion": "aviso_senamhi == 'rojo' and dist_quebrada <= 50 and ubic_cono_deyeccion == 'sí'",
+            "objetivo": {
+                "nivel_alerta": "recomendacion_evacuacion_preventiva"
+            }
+        }
+    ]
+}
