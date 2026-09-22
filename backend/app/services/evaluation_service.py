@@ -18,7 +18,6 @@ class EvaluationService:
 
     def evaluar_riesgo(self, request: EvaluacionRequest) -> EvaluacionResponse:
         # 1. Convertimos el modelo Pydantic (input validado) a un diccionario estándar
-        # Nota: model_dump() es el método moderno en Pydantic v2 (reemplaza a .dict())
         hechos_iniciales = request.model_dump()
         
         # 2. Inicializamos una Base de Hechos fresca para esta petición específica
