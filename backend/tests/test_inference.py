@@ -36,8 +36,8 @@ def test_inference_engine_susceptibilidad_alta():
     assert "R6" in traza_reglas, "La regla R6 no se disparó"
     assert "R8" in traza_reglas, "La regla R8 no se disparó"
     
-    print("[OK] Todos los asserts pasaron exitosamente.")
-    print("Hechos finales en memoria:", memoria_final.a_diccionario())
+    print("Todos los asserts pasaron exitosamente.")
+    print("Hechos finales en memoria: ", memoria_final.a_diccionario())
     print("Reglas disparadas:", traza_reglas)
     
     # 6. Probando el Módulo de Explicación

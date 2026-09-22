@@ -10,10 +10,9 @@ app = FastAPI(
 )
 
 # Configuración de CORS
-# Extremadamente importante para que el frontend (React/Vue/Angular) pueda hacer peticiones a este backend.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, reemplazar con la URL de tu frontend (ej. "http://localhost:3000")
+    allow_origins=["*"],  # Luego reemplazar con la URL del frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
