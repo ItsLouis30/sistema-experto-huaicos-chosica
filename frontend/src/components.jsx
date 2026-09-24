@@ -139,10 +139,26 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
   }
   const pct = Math.min(100, (valor / campo.max) * 100)
 
+  // Precipitación acumulada
   const esCritico = valor >= 60
   const esModerado = valor >= 16
   const numGotas = esCritico ? 14 : esModerado ? 9 : 4
   const estadoTexto = esCritico ? 'Umbral Crítico SENAMHI (≥ 60 mm)' : esModerado ? 'Lluvia Moderada (16 - 59 mm)' : 'Nivel Leve / Seco (0 - 15 mm)'
+
+  // Distancia a la quebrada (Corte transversal reactivo)
+  const distCritica = valor <= 50
+  const distAlta = valor > 50 && valor <= 100
+  const distColor = distCritica ? '#dc2626' : distAlta ? '#d97706' : '#16a34a'
+  const distClase = distCritica ? 'is-critica' : distAlta ? 'is-alta' : 'is-segura'
+  const distTexto = distCritica 
+    ? 'Zona crítica de impacto directo (≤ 50 m)' 
+    : distAlta 
+      ? 'Franja de exposición alta (51 - 100 m)' 
+      : 'Margen de amortiguamiento (> 100 m)'
+
+  const pctPos = Math.min(1, Math.max(0, valor / 300))
+  const casaX = 48 + pctPos * (285 - 48)
+  const casaY = 85 - pctPos * (85 - 20)
 
   return (
     <div className="field">
@@ -185,7 +201,41 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
           </div>
         )}
 
-        <div className="range">
+        {clave === 'dist_quebrada' && (
+          <div className={`dist-monitor ${distClase}`}>
+            <div className="dist-monitor__header">
+              <span className="dist-monitor__title">Perfil de Ladera & Distancia al Cauce</span>
+              <span className="dist-badge">{distTexto}</span>
+            </div>
+
+            <div className="dist-svg-container">
+              <svg viewBox="0 0 320 100" width="100%" height="100" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                {/* Cauce torrentoso en V (0m - 35m) */}
+                <path d="M0,30 L22,82 L48,86 L62,65" stroke="#3b82f6" strokeWidth="3" fill="none" />
+                <path d="M0,50 L22,82 L48,86 L56,72 L0,50 Z" fill="#3b82f6" fillOpacity="0.25" stroke="none" />
+                <path d="M6,62 Q22,78 38,78" stroke="#60a5fa" strokeWidth="1.6" strokeDasharray="4 3" className="anim-escorrentia" />
+
+                {/* Talud de ladera ascendente (35m - 300m) */}
+                <path d="M48,86 L300,20" stroke="#64748b" strokeWidth="3" />
+
+                {/* Franjas de zonificación sobre la ladera */}
+                <line x1="48" y1="86" x2="90" y2="75" stroke="#dc2626" strokeWidth="5" strokeOpacity="0.75" />
+                <line x1="90" y1="75" x2="132" y2="64" stroke="#d97706" strokeWidth="5" strokeOpacity="0.75" />
+                <line x1="132" y1="64" x2="300" y2="20" stroke="#16a34a" strokeWidth="4" strokeOpacity="0.6" />
+
+                {/* Silueta vectorial bien proporcionada de la vivienda */}
+                <g transform={`translate(${casaX}, ${casaY})`} style={{ transition: 'transform 0.15s ease-out' }}>
+                  <ellipse cx="0" cy="1" rx="12" ry="3" fill="rgba(15, 23, 42, 0.2)" />
+                  <rect x="-10" y="-13" width="20" height="14" fill={distColor} stroke="#ffffff" strokeWidth="1.8" rx="1" />
+                  <path d="M-12,-12 L0,-21 L12,-11 Z" fill={distColor} stroke="#ffffff" strokeWidth="1.8" strokeLinejoin="round" />
+                  <rect x="-3" y="-7" width="6" height="8" fill="#ffffff" opacity="0.95" rx="0.5" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        )}
+
+        <div className={`range ${clave === 'dist_quebrada' ? distClase : ''}`}>
           <input 
             type="range" 
             min={campo.min} 
