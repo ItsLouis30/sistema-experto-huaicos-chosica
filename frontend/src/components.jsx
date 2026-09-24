@@ -169,14 +169,7 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
                 key={preset.valor}
                 type="button"
                 onClick={() => fijar(preset.valor)}
-                style={{
-                  textAlign: 'left', padding: '10px 16px', borderRadius: '8px', border: '1px solid',
-                  backgroundColor: valor === preset.valor ? '#EEF2FF' : '#F8FAFC',
-                  borderColor: valor === preset.valor ? '#818CF8' : '#E2E8F0',
-                  color: valor === preset.valor ? '#3730A3' : '#475569',
-                  fontSize: '0.85rem', fontWeight: valor === preset.valor ? '600' : '400',
-                  cursor: 'pointer', transition: 'all 0.2s', width: '100%'
-                }}
+                className={`preset-btn ${valor === preset.valor ? 'is-active' : ''}`}
               >
                 {preset.label}
               </button>

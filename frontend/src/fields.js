@@ -93,8 +93,8 @@ export const CAMPOS = {
       { value: 'rojo', label: 'Rojo', detalle: 'Fenómeno de gran magnitud', tema: 'rojo' },
       { value: 'naranja', label: 'Naranja', detalle: 'Fenómeno peligroso', tema: 'naranja' },
       { value: 'amarillo', label: 'Amarillo', detalle: 'Pueden ocurrir fenómenos peligrosos', tema: 'amarillo' },
-      { value: 'blanco', label: 'Blanco / Sin aviso', detalle: 'Condiciones normales', tema: 'neutro' },
-      { value: 'sin_aviso', label: 'Sin aviso', tema: 'neutro' },
+      { value: 'blanco', label: 'Blanco', detalle: 'Condiciones normales dentro del promedio histórico', tema: 'neutro' },
+      { value: 'sin_aviso', label: 'Sin aviso', detalle: 'Sin aviso meteorológico emitido', tema: 'neutro' },
     ],
   },
   precipitacion_72h: {
@@ -107,9 +107,9 @@ export const CAMPOS = {
     defecto: 20,
     guiaVisual: 'precipitacion',
     presets: [
-      { valor: 5, label: 'Llovizna o seco (0 - 10 mm)' },
-      { valor: 30, label: 'Lluvia moderada (20 - 40 mm)' },
-      { valor: 65, label: 'Lluvia torrencial / saturación (≥ 60 mm)' },
+      { valor: 5, label: '💧 Llovizna o seco (0 - 10 mm)' },
+      { valor: 30, label: '🌧️ Lluvia moderada (20 - 40 mm)' },
+      { valor: 65, label: '⛈️ Lluvia torrencial / saturación (≥ 60 mm)' },
     ],
     alertaSiMayor: true,
     umbrales: [{ valor: 60, texto: 'Lluvia intensa ≥ 60 mm' }],
@@ -140,8 +140,16 @@ export const CAMPOS = {
     label: 'Obra de mitigación cercana',
     ayuda: 'Diques, muros de contención o barreras dinámicas.',
     opciones: [
-      { value: 'presente', label: 'Presente' },
-      { value: 'ausente', label: 'Ausente' },
+      { 
+        value: 'presente', 
+        label: 'Presente',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,35 L35,35 M12,35 L16,15 L28,15 L32,35" fill="currentColor" fill-opacity="0.1" stroke-linejoin="round" /><line x1="14" y1="25" x2="30" y2="25" /><line x1="18" y1="15" x2="18" y2="25" /><line x1="24" y1="25" x2="24" y2="35" /></svg>'
+      },
+      { 
+        value: 'ausente', 
+        label: 'Ausente',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,35 L35,35" stroke-dasharray="4 4" /><path d="M12,12 L28,28 M28,12 L12,28" stroke="#EF4444" stroke-width="3" /></svg>'
+      },
     ],
   },
   estado_obra_mitigacion: {
@@ -158,8 +166,18 @@ export const CAMPOS = {
     tipo: 'opciones',
     label: 'Material de la vivienda',
     opciones: [
-      { value: 'precaria', label: 'Precaria', detalle: 'Esteras, madera, adobe' },
-      { value: 'noble', label: 'Noble', detalle: 'Ladrillo y concreto' },
+      { 
+        value: 'precaria', 
+        label: 'Precaria', 
+        detalle: 'Esteras, madera, adobe',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,25 L20,10 L35,25 M10,25 L10,35 L30,35 L30,25 M10,15 L30,15 M10,20 L30,20" stroke-linejoin="round" fill="currentColor" fill-opacity="0.05" /></svg>'
+      },
+      { 
+        value: 'noble', 
+        label: 'Noble', 
+        detalle: 'Ladrillo y concreto',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><rect x="8" y="15" width="24" height="20" fill="currentColor" fill-opacity="0.1" /><path d="M4,15 L36,15 M8,22 L32,22 M8,29 L32,29 M16,15 L16,22 M24,22 L24,29 M16,29 L16,35 M24,15 L24,22" stroke-linejoin="round" /></svg>'
+      },
     ],
   },
   ruta_evacuacion_segura: {

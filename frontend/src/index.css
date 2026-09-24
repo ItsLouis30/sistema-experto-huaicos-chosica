@@ -320,6 +320,32 @@ h1, h2, h3, p { margin: 0; }
 .chip--tema-neutro.is-selected { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
 .chip--tema-neutro.is-selected .chip__check { background: #64748b; }
 
+/* Botones Presets (Precipitación) */
+.preset-btn {
+  text-align: left;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background-color: var(--bg-soft);
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+.preset-btn:hover {
+  border-color: var(--primary-line);
+  background-color: #fff;
+  color: var(--primary);
+}
+.preset-btn.is-active {
+  background-color: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
 /* Números: stepper + slider */
 .number { display: flex; flex-direction: column; gap: 14px; }
 .number__stepper {
