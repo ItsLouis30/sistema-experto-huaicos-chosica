@@ -412,6 +412,7 @@ h1, h2, h3, p { margin: 0; }
   animation: spin 0.7s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
 
 .error {
   margin: 12px 28px 0;

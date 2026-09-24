@@ -1,4 +1,4 @@
-# Sistema Basado en el Conocimiento (SBC) para la Evaluación del Riesgo por Huaicos en Lurigancho-Chosica
+# Sistema Experto para la Prevención y Evaluación del Riesgo por Flujo de Detritos (Huaicos) en Viviendas Ubicadas en Zonas de Influencia de Quebradas del Distrito de Lurigancho-Chosica
 
 ## 📌 Visión General del Proyecto
 **Enfoque Principal:** Prevención y preparación ante desastres naturales (Gestión Prospectiva y Correctiva del Riesgo). No es un sistema de rescate en tiempo real, sino una herramienta para democratizar información técnica compleja, permitiendo que ciudadanos y autoridades locales identifiquen su nivel de riesgo y actúen preventivamente.

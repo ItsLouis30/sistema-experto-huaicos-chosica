@@ -4,6 +4,7 @@ import { CAMPOS, PASOS, valoresIniciales } from './fields.js'
 import { ChipGroup, Icon, NumberField, Resumen, Sidebar, Stepper } from './components.jsx'
 import Resultado from './Result.jsx'
 import Metodologia from './Metodologia.jsx'
+import HeroHeader from './HeroHeader.jsx'
 
 const PASO_RESULTADO = PASOS.length
 
@@ -66,27 +67,15 @@ export default function App() {
     <div className="app">
       <Sidebar vista={vista} onVista={setVista} />
       <div className="main">
-        <header className="topbar">
-          <div className="topbar__title">
-            {vista === 'evaluacion' && paso > 0 && (
-              <button className="icon-btn" onClick={() => ir(paso - 1)} aria-label="Paso anterior"><Icon.back /></button>
-            )}
-            <h1>{vista === 'evaluacion' ? 'Evaluación de riesgo por huaicos' : 'Metodología y reglas'}</h1>
-          </div>
-          <div className={`estado estado--${enLinea === null ? 'check' : enLinea ? 'on' : 'off'}`}>
-            <span />
-            {enLinea === null ? 'Conectando…' : enLinea ? 'Motor CLIPS en línea' : 'Backend sin conexión'}
-          </div>
-        </header>
+        {vista === 'evaluacion' && <HeroHeader enLinea={enLinea} />}
 
-        <div className="contextbar">
-          <span className="contextbar__avatar"><Icon.map width={16} height={16} /></span>
-          <strong>Lurigancho-Chosica</strong>
-          <span className="contextbar__sep" />
-          <span>Metodología <b>CENEPRED</b></span>
-          <span>Motor <b>CLIPS · Encadenamiento hacia adelante</b></span>
-          <span className="contextbar__hide-sm">Base de conocimiento <b>66 reglas</b></span>
-        </div>
+        {vista !== 'evaluacion' && (
+          <header className="topbar" style={{ background: '#0F172A', color: '#F8FAFC' }}>
+            <div className="topbar__title">
+              <h1>Metodología y reglas</h1>
+            </div>
+          </header>
+        )}
 
         {vista === 'metodologia' ? (
           <Metodologia />

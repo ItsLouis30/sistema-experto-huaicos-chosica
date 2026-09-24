@@ -92,11 +92,13 @@ export function ChipGroup({ clave, valores, onChange }) {
                 role="radio"
                 aria-checked={activo}
                 className={`chip ${activo ? 'is-selected' : ''} ${o.detalle ? 'chip--rich' : ''}`}
+                style={activo && o.color ? { borderColor: o.color, backgroundColor: `${o.color}10` } : {}}
                 onClick={() => onChange(clave, o.value)}
               >
-                {activo ? <span className="chip__check"><Icon.check width={12} height={12} /></span> : o.color && <span className="chip__swatch" style={{ background: o.color }} />}
+                {activo ? <span className="chip__check" style={o.color ? { backgroundColor: o.color } : {}}><Icon.check width={12} height={12} /></span> : o.color && <span className="chip__swatch" style={{ background: o.color }} />}
                 <span className="chip__text">
-                  {o.label}
+                  {o.icon && <span className="chip__icon" style={{ fontSize: '1.5rem', display: 'block', marginBottom: '0.25rem' }}>{o.icon}</span>}
+                  <strong>{o.label}</strong>
                   {o.detalle && <small>{o.detalle}</small>}
                 </span>
               </button>

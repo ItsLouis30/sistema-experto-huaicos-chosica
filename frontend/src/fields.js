@@ -49,24 +49,27 @@ export const CAMPOS = {
     label: 'Pendiente del terreno',
     ayuda: 'Inclinación de la ladera sobre la que se asienta la vivienda.',
     opciones: [
-      { value: 'alta', label: 'Alta', detalle: 'Ladera empinada' },
-      { value: 'media', label: 'Media', detalle: 'Inclinación moderada' },
-      { value: 'baja', label: 'Baja', detalle: 'Terreno casi plano' },
+      { value: 'alta', label: 'Alta', detalle: 'Ladera empinada', icon: '⛰️', color: '#ef4444' },
+      { value: 'media', label: 'Media', detalle: 'Inclinación moderada', icon: '📉', color: '#f97316' },
+      { value: 'baja', label: 'Baja', detalle: 'Terreno plano', icon: '🟢', color: '#22c55e' },
     ],
   },
   tipo_suelo_superficial: {
     tipo: 'opciones',
     label: 'Tipo de suelo superficial',
     opciones: [
-      { value: 'material_suelto', label: 'Material suelto', detalle: 'Arena, grava, rocas sueltas' },
-      { value: 'roca_consolidada', label: 'Roca consolidada', detalle: 'Roca firme y compacta' },
+      { value: 'material_suelto', label: 'Material suelto', detalle: 'Arena, grava o rocas sueltas', icon: '🪨', color: '#eab308' },
+      { value: 'roca_consolidada', label: 'Roca consolidada', detalle: 'Roca firme y compacta', icon: '🧱', color: '#3b82f6' },
     ],
   },
   antecedente_activacion: {
     tipo: 'opciones',
     label: '¿La quebrada se activó antes?',
     ayuda: 'Registro histórico de huaicos en la quebrada cercana.',
-    opciones: SI_NO,
+    opciones: [
+      { value: 'sí', label: 'Sí, se ha activado', detalle: 'Se han registrado huaicos o desbordes en años anteriores', icon: '⚠️', color: '#ef4444' },
+      { value: 'no', label: 'No / Sin registro', detalle: 'Históricamente no ha bajado flujo por este sector', icon: '🛡️', color: '#22c55e' },
+    ],
   },
   aviso_senamhi: {
     tipo: 'opciones',
