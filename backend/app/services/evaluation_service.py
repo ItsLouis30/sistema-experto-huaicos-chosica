@@ -2,6 +2,8 @@ from app.schemas.models import EvaluacionRequest, EvaluacionResponse, Explicacio
 from app.inference.clips_engine import CLIPSEngine
 from app.explanation.tracer import ExplanationTracer
 
+import json
+
 class EvaluationService:
     """
     Capa de Servicios.
@@ -14,8 +16,10 @@ class EvaluationService:
         self.explicador = ExplanationTracer(dictionary_path="app/knowledge/reglas.json")
 
     def evaluar_riesgo(self, request: EvaluacionRequest) -> EvaluacionResponse:
-        # 1. Convertimos el modelo Pydantic (input validado) a un diccionario estándar
-        hechos_iniciales = request.model_dump()
+        # 1. Convertimos el modelo Pydantic a un diccionario estándar con tipos primitivos (str, int)
+        # Usamos model_dump_json() para obligar a Pydantic a extraer el string real de los Enums
+        # (para evitar que inyecte "PendienteTerreno.ALTA" en CLIPS en lugar de "alta").
+        hechos_iniciales = json.loads(request.model_dump_json())
         
         # 2. Ejecutamos el Motor de Inferencia CLIPS (Forward Chaining)
         # Esto crea un entorno limpio, inserta los hechos, ejecuta y devuelve los resultados
