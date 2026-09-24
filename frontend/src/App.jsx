@@ -7,6 +7,7 @@ import Metodologia from './Metodologia.jsx'
 import HeroHeader from './HeroHeader.jsx'
 import VisualGuideModal from './VisualGuideModal.jsx'
 import AdquisicionView from './AdquisicionView.jsx'
+import ReglasView from './ReglasView.jsx'
 
 const PASO_RESULTADO = PASOS.length
 
@@ -137,6 +138,19 @@ export default function App() {
               </div>
             </header>
             <Metodologia />
+          </>
+        )}
+
+        {vista === 'reglas' && (
+          <>
+            <header className="topbar" style={{ background: '#0F172A', color: '#F8FAFC' }}>
+              <div className="topbar__title">
+                <h1>Base de Conocimiento</h1>
+              </div>
+            </header>
+            <main className="main" style={{ overflowY: 'auto', flex: 1, paddingBottom: '2rem' }}>
+              <ReglasView />
+            </main>
           </>
         )}
 

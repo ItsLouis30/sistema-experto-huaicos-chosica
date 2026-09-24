@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.evaluacion import router as evaluacion_router
 from app.api.adquisicion import router as adquisicion_router
+from app.api.reglas import router as reglas_router
 
 # Instanciamos la aplicación FastAPI
 app = FastAPI(
@@ -25,6 +26,7 @@ app.add_middleware(
 # Todas las rutas tendrán el prefijo /api
 app.include_router(evaluacion_router, prefix="/api", tags=["Evaluación"])
 app.include_router(adquisicion_router, prefix="/api/conocimiento", tags=["Adquisición"])
+app.include_router(reglas_router, prefix="/api/reglas", tags=["Base de Conocimiento"])
 
 @app.get("/api/salud", tags=["Health"])
 def salud():
