@@ -95,7 +95,7 @@ export default function AdquisicionView() {
           <p>Módulo de integración y validación de reglas propuestas por expertos.</p>
         </header>
 
-        <div className="card__body" style={{ padding: '0 24px 24px' }}>
+        <div className="card__body" className="card__body-responsive">
           <div style={{ display: 'flex', gap: '16px', borderBottom: '1px solid var(--line)', marginBottom: '24px' }}>
             <button 
               onClick={() => setTab('proponer')} 
@@ -110,8 +110,8 @@ export default function AdquisicionView() {
           </div>
 
       {tab === 'proponer' && (
-        <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '1rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
-          <div style={{ padding: '1rem', backgroundColor: '#FEF3C7', borderLeft: '4px solid #F59E0B', color: '#92400E', marginBottom: '2rem', fontSize: '0.9rem' }}>
+        <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '1rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ padding: '1rem', backgroundColor: '#FEF3C7', borderLeft: '4px solid #F59E0B', color: '#92400E', marginBottom: '1rem', fontSize: '0.9rem', width: '100%', boxSizing: 'border-box' }}>
             <strong>Nota técnica:</strong> Las reglas propuestas entrarán a una etapa de revisión técnica y validación antes de su homologación e incorporación en la base de conocimiento CLIPS de 66 reglas.
           </div>
 

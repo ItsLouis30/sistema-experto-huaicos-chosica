@@ -746,3 +746,6 @@ h1, h2, h3, p { margin: 0; }
   .app p { font-size: 0.9rem !important; margin-bottom: 1rem !important; }
 
 }
+
+.card__body-responsive { padding: 0 16px 16px; }
+@media (min-width: 768px) { .card__body-responsive { padding: 0 24px 24px; } }

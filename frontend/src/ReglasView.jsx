@@ -66,7 +66,7 @@ export default function ReglasView() {
                     </span>
                   </div>
 
-                  <div style={{ backgroundColor: 'var(--bg-soft)', padding: '16px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--ink-2)' }}>
+                  <div style={{ backgroundColor: 'var(--bg-soft)', padding: '16px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--ink-2)', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowWrap: 'break-word', overflowX: 'hidden', width: '100%', boxSizing: 'border-box' }}>
                     <div style={{ color: 'var(--primary)', fontWeight: 'bold' }}>SI</div>
                     {regla.condiciones.map((c, i) => (
                       <div key={i} style={{ paddingLeft: '16px' }}>{c}</div>
