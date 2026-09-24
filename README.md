@@ -38,16 +38,16 @@ sistema-experto-g8/
 ├── backend/                  
 │   ├── app/
 │   │   ├── api/              # Controladores (Adquisición, Evaluación, Reglas)
-│   │   ├── explanation/      # 🧠 [Módulo de Explicación]: Traza las reglas disparadas
-│   │   ├── inference/        # ⚙️ [Motor de Inferencia]: Enlace en C con CLIPS
-│   │   ├── knowledge/        # 📚 [Base de Conocimiento]: rules.clp y staging de reglas
+│   │   ├── explanation/      # [Módulo de Explicación]: Traza las reglas disparadas
+│   │   ├── inference/        # [Motor de Inferencia]: Enlace en C con CLIPS
+│   │   ├── knowledge/        # [Base de Conocimiento]: rules.clp y staging de reglas
 │   │   └── main.py           # Punto de entrada de la aplicación
 │   │
-│   └── tests/                # 🧪 Pruebas unitarias sobre la Base de Hechos
+│   └── tests/                # Pruebas unitarias sobre la Base de Hechos
 │
-├── frontend/                 # 🖥️ [Interfaz de Usuario]: SPA en React + Vite
+├── frontend/                 # [Interfaz de Usuario]: SPA en React + Vite
 │   ├── src/                  
-│   │   ├── AdquisicionView.jsx # 📥 [Módulo de Adquisición de Conocimiento]
+│   │   ├── AdquisicionView.jsx # [Módulo de Adquisición de Conocimiento]
 │   │   ├── ReglasView.jsx      # Visor dinámico de la Base de Conocimiento
 │   │   └── App.jsx             # Flujo del evaluador ciudadano
 │   └── package.json          
