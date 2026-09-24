@@ -39,8 +39,8 @@ sistema-experto-g8/
 │   ├── app/                  # Núcleo del Sistema Experto (SBC)
 │   │   ├── api/              # Endpoints de FastAPI
 │   │   ├── explanation/      # Módulo de Explicación (Traza de reglas)
-│   │   ├── inference/        # Motor de Inferencia y Base de Hechos
-│   │   ├── knowledge/        # Base de Conocimiento (Reglas JSON)
+│   │   ├── inference/        # Motor de Inferencia (clipspy)
+│   │   ├── knowledge/        # Base de Conocimiento (rules.clp)
 │   │   ├── schemas/          # Modelos de Pydantic para validación de datos
 │   │   ├── services/         # Lógica adicional del negocio
 │   │   └── main.py           # Punto de entrada de la aplicación
@@ -63,9 +63,9 @@ sistema-experto-g8/
 | Lenguaje          | **Python 3.12+**                          | Motor del SBC                               |
 | API               | **FastAPI**                               | Comunicar frontend ↔ backend                |
 | Validación        | **Pydantic**                              | Validar los valores legales de entrada      |
-| BC                | **JSON**                                  | Reglas independientes del motor             |
-| BH                | **Objetos Python / memoria**              | Hechos iniciales + conclusiones             |
-| Motor             | **Python propio**                         | Lógica de inferencia                        |
+| BC                | **CLIPS (.clp)**                          | Reglas con sintaxis nativa de CLIPS         |
+| BH                | **Memoria de CLIPS**                      | Hechos iniciales + conclusiones insertadas  |
+| Motor             | **CLIPS (vía clipspy)**                   | Inferencia real en C (Forward Chaining)     |
 | Explicación       | **Python propio**                         | Traza de reglas disparadas                  |
 | Tests             | **pytest**                                | Verificación de reglas y casos de prueba    |
 | Documentación API | **Swagger/OpenAPI (FastAPI)**             | Interfaz para probar el backend fácilmente  |
