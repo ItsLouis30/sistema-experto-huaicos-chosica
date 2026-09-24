@@ -70,77 +70,87 @@ export default function App() {
     <div className="app">
       <Sidebar vista={vista} onVista={setVista} />
       <div className="main">
-        {vista === 'evaluacion' && <HeroHeader enLinea={enLinea} />}
-
-        {vista !== 'evaluacion' && (
-          <header className="topbar" style={{ background: '#0F172A', color: '#F8FAFC' }}>
-            <div className="topbar__title">
-              <h1>Metodología y reglas</h1>
-            </div>
-          </header>
-        )}
-
-        {vista === 'metodologia' ? (
-          <Metodologia />
-        ) : (
-          <main className="content">
-            <div className="content__stepper card">
-              <Stepper actual={paso} completos={completos} onIr={ir} />
-            </div>
-
-            {paso === PASO_RESULTADO && resultado ? (
-              <Resultado resultado={resultado} onEditar={() => setPaso(PASOS.length - 1)} onReiniciar={reiniciar} />
-            ) : (
-              <div className="content__grid">
-                <section className="card form-card">
-                  <header className="form-card__head">
-                    <span className="step-icon">{paso + 1}</span>
-                    <div>
-                      <span className="eyebrow">Paso {paso + 1} de {PASOS.length} · {pasoInfo.fuente}</span>
-                      <h2>{pasoInfo.encabezado}</h2>
-                      <p>{pasoInfo.descripcion}</p>
-                    </div>
-                  </header>
-                  <div className="form-card__progress"><span style={{ width: `${((paso + 1) / PASOS.length) * 100}%` }} /></div>
-
-                  <div className="form-card__body">
-                    {pasoInfo.campos.map((c) =>
-                      CAMPOS[c].tipo === 'numero' ? (
-                        <NumberField key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
-                      ) : (
-                        <ChipGroup key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
-                      ),
-                    )}
-                  </div>
-
-                  {error && <div className="error"><Icon.alert width={18} height={18} />{error}</div>}
-
-                  <footer className="form-card__foot">
-                    <button className="btn btn--outline" onClick={() => ir(paso - 1)} disabled={paso === 0}>
-                      <Icon.back width={16} height={16} />Anterior
-                    </button>
-                    {paso < PASOS.length - 1 ? (
-                      <button className="btn btn--primary" onClick={() => ir(paso + 1)} disabled={!completos[paso]}>
-                        Siguiente<Icon.next width={16} height={16} />
-                      </button>
-                    ) : (
-                      <button className="btn btn--success" onClick={enviar} disabled={!completos.every(Boolean) || cargando}>
-                        {cargando ? <span className="spinner" /> : <Icon.cpu width={16} height={16} />}
-                        {cargando ? 'Infiriendo…' : 'Evaluar riesgo'}
-                      </button>
-                    )}
-                  </footer>
-                </section>
-
-                <Resumen valores={valores} pasoActual={paso} onIr={ir} />
+        {vista === 'evaluacion' && (
+          <>
+            <HeroHeader enLinea={enLinea} />
+            <main className="content">
+              <div className="content__stepper card">
+                <Stepper actual={paso} completos={completos} onIr={ir} />
               </div>
-            )}
-          </main>
+
+              {paso === PASO_RESULTADO && resultado ? (
+                <Resultado resultado={resultado} onEditar={() => setPaso(PASOS.length - 1)} onReiniciar={reiniciar} />
+              ) : (
+                <div className="content__grid">
+                  <section className="card form-card">
+                    <header className="form-card__head">
+                      <span className="step-icon">{paso + 1}</span>
+                      <div>
+                        <span className="eyebrow">Paso {paso + 1} de {PASOS.length} · {pasoInfo.fuente}</span>
+                        <h2>{pasoInfo.encabezado}</h2>
+                        <p>{pasoInfo.descripcion}</p>
+                      </div>
+                    </header>
+                    <div className="form-card__progress"><span style={{ width: `${((paso + 1) / PASOS.length) * 100}%` }} /></div>
+
+                    <div className="form-card__body">
+                      {pasoInfo.campos.map((c) =>
+                        CAMPOS[c].tipo === 'numero' ? (
+                          <NumberField key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
+                        ) : (
+                          <ChipGroup key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
+                        ),
+                      )}
+                    </div>
+
+                    {error && <div className="error"><Icon.alert width={18} height={18} />{error}</div>}
+
+                    <footer className="form-card__foot">
+                      <button className="btn btn--outline" onClick={() => ir(paso - 1)} disabled={paso === 0}>
+                        <Icon.back width={16} height={16} />Anterior
+                      </button>
+                      {paso < PASOS.length - 1 ? (
+                        <button className="btn btn--primary" onClick={() => ir(paso + 1)} disabled={!completos[paso]}>
+                          Siguiente<Icon.next width={16} height={16} />
+                        </button>
+                      ) : (
+                        <button className="btn btn--success" onClick={enviar} disabled={!completos.every(Boolean) || cargando}>
+                          {cargando ? <span className="spinner" /> : <Icon.cpu width={16} height={16} />}
+                          {cargando ? 'Infiriendo…' : 'Evaluar riesgo'}
+                        </button>
+                      )}
+                    </footer>
+                  </section>
+
+                  <Resumen valores={valores} pasoActual={paso} onIr={ir} />
+                </div>
+              )}
+            </main>
+          </>
         )}
+
+        {vista === 'metodologia' && (
+          <>
+            <header className="topbar" style={{ background: '#0F172A', color: '#F8FAFC' }}>
+              <div className="topbar__title">
+                <h1>Metodología y reglas</h1>
+              </div>
+            </header>
+            <Metodologia />
+          </>
+        )}
+
         {vista === 'adquisicion' && (
-          <main className="main" style={{ overflowY: 'auto' }}>
-            <AdquisicionView />
-          </main>
+          <>
+            <header className="topbar" style={{ background: '#0F172A', color: '#F8FAFC' }}>
+              <div className="topbar__title">
+                <h1>Portal de Expertos</h1>
+              </div>
+            </header>
+            <main className="main" style={{ overflowY: 'auto', flex: 1, paddingBottom: '2rem' }}>
+              <AdquisicionView />
+            </main>
+          </>
         )}
       </div>
       <VisualGuideModal guideId={guiaActiva} onClose={() => setGuiaActiva(null)} />
