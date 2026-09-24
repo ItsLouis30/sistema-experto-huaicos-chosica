@@ -22,10 +22,11 @@ El proyecto sigue la arquitectura teórica de un Sistema Experto, separando el c
 * **Base de Hechos (BH):** Memoria temporal que almacena las entradas del usuario y los resultados deducidos.
 * **Motor de Inferencia:** El algoritmo central que aplica razonamiento (encadenamiento hacia adelante/atrás) cruzando la BC y la BH.
 
-### 2. Componentes Secundarios (Importantes)
-* **Módulo de Interfaz de Usuario:** Gobierna el diálogo entre el usuario y el sistema (Sistema de Consulta).
-* **Módulo de Explicación:** Permite trazar la ruta de razonamiento, mostrando qué reglas se dispararon para llegar a una conclusión.
-* **Módulo de Adquisición de Conocimiento:** Facilita la inserción o edición de reglas sin modificar el código fuente.
+### 2. Componentes Secundarios (Implementados y 100% Funcionales)
+* **Módulo de Interfaz de Usuario:** Gobierna el diálogo entre el usuario y el sistema. Guiado visualmente por pasos, con iconografía semafórica y tooltips pedagógicos para métricas complejas (ej. diagramas del cono de deyección o milímetros de lluvia).
+* **Módulo de Explicación:** Permite trazar la ruta de razonamiento de forma transparente, mostrando explícitamente qué reglas (ID y justificación) se dispararon para llegar a una conclusión.
+* **Módulo de Adquisición de Conocimiento (Portal de Expertos):** Interfaz dedicada aislada del motor principal. Permite a los especialistas proponer nuevas reglas lógicas con sus respectivos antecedentes, consecuentes, fuente y justificación técnica. Estas se almacenan en una "bandeja de validación" (JSON en formato staging) donde pueden ser homologadas o rechazadas sin comprometer la BC oficial.
+* **Base de Reglas (Diccionario SBC):** Un catálogo dinámico integrado en el frontend que expone y traduce las 66 reglas operativas escritas en C/CLIPS a una sintaxis limpia y legible por ciudadanos y gestores.
 
 ---
 
@@ -37,10 +38,10 @@ Para mantener el orden y seguir la arquitectura conceptual, el repositorio está
 sistema-experto-g8/
 ├── backend/                  
 │   ├── app/                  # Núcleo del Sistema Experto (SBC)
-│   │   ├── api/              # Endpoints de FastAPI
+│   │   ├── api/              # Endpoints de FastAPI (evaluacion, adquisicion, reglas)
 │   │   ├── explanation/      # Módulo de Explicación (Traza de reglas)
 │   │   ├── inference/        # Motor de Inferencia (clipspy)
-│   │   ├── knowledge/        # Base de Conocimiento (rules.clp)
+│   │   ├── knowledge/        # Base de Conocimiento (rules.clp y propuestas_reglas.json)
 │   │   ├── schemas/          # Modelos de Pydantic para validación de datos
 │   │   ├── services/         # Lógica adicional del negocio
 │   │   └── main.py           # Punto de entrada de la aplicación
@@ -105,9 +106,13 @@ python tests/test_inference.py
 
 ---
 
-## 🖥️ Cómo Ejecutar el Frontend
+## 🖥️ Cómo Ejecutar el Frontend (Interfaz de Usuario)
 
-Interfaz en **React + Vite** que guía al usuario en 4 pasos (Terreno → Clima → Ubicación → Vivienda) y muestra el resultado con la traza del Módulo de Explicación.
+Interfaz construida en **React + Vite** que cuenta con 4 módulos principales:
+1. **Evaluación (Ciudadano):** Guía en 4 pasos (Terreno → Clima → Ubicación → Vivienda) con tooltips pedagógicos, iconografía y diseño de *Hero Section* (Parallax vector) para que un ciudadano sin experiencia geológica entienda y evalúe su nivel de riesgo.
+2. **Portal de Expertos (Adquisición):** Formulario estricto y bandeja de entrada (dashboard) donde un especialista puede proponer una regla técnica (SI/ENTONCES) que entrará en etapa de validación.
+3. **Base de Reglas (Diccionario SBC):** Visor que extrae directamente del motor CLIPS (`rules.clp`) y traduce de forma dinámica las 66 reglas a un formato legible por humanos.
+4. **Metodología:** Explicación técnica de la arquitectura CENEPRED.
 
 1. Con el backend corriendo en el puerto `8000`, abre otra terminal:
    ```bash
