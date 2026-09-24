@@ -807,3 +807,55 @@ h1, h2, h3, p { margin: 0; }
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08) !important;
   border-color: #cbd5e1 !important;
 }
+
+/* Vibración suave de partículas de suelo suelto */
+@keyframes vibracionSuelo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.chip:hover .anim-vibrar,
+.chip.is-selected .anim-vibrar {
+  animation: vibracionSuelo 0.8s infinite ease-in-out;
+}
+.chip:hover .anim-vibrar.anim-delay-1,
+.chip.is-selected .anim-vibrar.anim-delay-1 {
+  animation-delay: 0.25s;
+}
+.chip:hover .anim-vibrar.anim-delay-2,
+.chip.is-selected .anim-vibrar.anim-delay-2 {
+  animation-delay: 0.5s;
+}
+
+/* Destello de diaclasas en roca consolidada */
+@keyframes destelloRoca {
+  0%, 100% { stroke-opacity: 0.4; stroke: #4353ff; }
+  50% { stroke-opacity: 1; stroke: #818cf8; stroke-width: 2.2px; }
+}
+
+.chip:hover .anim-destello-roca,
+.chip.is-selected .anim-destello-roca {
+  animation: destelloRoca 1.2s infinite ease-in-out;
+}
+
+/* Barrido de flujo histórico descendente */
+@keyframes flujoHistorico {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -20; }
+}
+
+.chip:hover .anim-flujo-historico,
+.chip.is-selected .anim-flujo-historico {
+  animation: flujoHistorico 1s infinite linear;
+}
+
+/* Estado de reposo ecológico */
+@keyframes reposoEcologico {
+  0%, 100% { stroke-opacity: 0.7; }
+  50% { stroke-opacity: 1; stroke-width: 3px; }
+}
+
+.chip:hover .anim-reposo,
+.chip.is-selected .anim-reposo {
+  animation: reposoEcologico 1.8s infinite ease-in-out;
+}
