@@ -29,7 +29,7 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); }
+html, body { margin: 0; padding: 0; background: var(--bg); overflow-x: hidden; width: 100vw; max-width: 100%; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 button:disabled { cursor: not-allowed; }
 h1, h2, h3, p { margin: 0; }
@@ -714,26 +714,34 @@ h1, h2, h3, p { margin: 0; }
     width: 100%;
     height: auto;
     flex-direction: row;
-    padding: 10px 16px;
-    position: sticky;
-    z-index: 10;
-    gap: 16px;
+    padding: 8px 16px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    justify-content: space-around;
   }
-  .sidebar__logo { margin: 0; }
-  .sidebar__nav { flex-direction: row; }
-  .sidebar__item { flex-direction: row; width: auto; padding: 8px 12px; font-size: 12px; }
+  .sidebar__logo { display: none; }
+  .sidebar__nav { flex-direction: row; width: 100%; justify-content: space-around; }
+  .sidebar__item { flex-direction: column; width: auto; padding: 12px; }
+  .sidebar__item span { display: none; }
+  .sidebar__item svg { width: 24px; height: 24px; }
   .sidebar__item.is-active::before { display: none; }
   .topbar, .contextbar { padding-left: 16px; padding-right: 16px; }
   .topbar h1 { font-size: 17px; }
   .estado { font-size: 0; padding: 8px; gap: 0; }
   .contextbar__hide-sm, .contextbar__sep { display: none; }
-  .content { padding: 16px 16px 40px; }
+  .content { padding: 16px 16px 100px; }
   .card { padding: 20px; }
   .content__stepper { padding: 16px 8px 12px; }
-  .stepper__label { font-size: 11px; }
-  .stepper__line { left: calc(50% + 20px); right: calc(-50% + 20px); }
+  .stepper__label { display: none; }
+  .stepper__line { left: calc(50% + 20px); right: calc(-50% + 20px); top: 17px; }
   .form-card__head, .form-card__body, .form-card__foot { padding-left: 18px; padding-right: 18px; }
   .chip--rich { min-width: 0; flex: 1 1 140px; }
   .hero { flex-direction: column; padding: 22px; }
-  .hero h2 { font-size: 30px; }
+  /* Override inline styles for HeroHeader typography */
+  .app h1 { font-size: 1.8rem !important; margin-bottom: 0.5rem !important; text-wrap: balance; line-height: 1.2 !important; }
+  .app p { font-size: 0.9rem !important; margin-bottom: 1rem !important; }
+
 }
