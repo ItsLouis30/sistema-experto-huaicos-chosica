@@ -1,5 +1,40 @@
-__pycache__
-venv
-.venv
-node_modules
-dist
+.DS_Store
+Thumbs.db
+*.log
+
+# BACKEND (Python)
+# Ambientes virtuales
+venv/
+env/
+.venv/
+.env
+
+# Caché y binarios de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+
+# FRONTEND (Node / Vite)
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs de npm/pnpm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# (Mantenemos pnpm-lock.yaml pero ignoramos package-lock.json por seguridad)
+package-lock.json
+yarn.lock
+
+# IDE / Editores
+.idea/
+.vscode/
+*.swp
+*.swo
