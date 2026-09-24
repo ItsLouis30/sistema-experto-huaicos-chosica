@@ -112,12 +112,12 @@ Interfaz en **React + Vite** que guía al usuario en 4 pasos (Terreno → Clima 
 1. Con el backend corriendo en el puerto `8000`, abre otra terminal:
    ```bash
    cd frontend
-   npm install
-   npm run dev
+   pnpm install
+   pnpm run dev
    ```
 2. Abre [http://localhost:5173](http://localhost:5173). Vite redirige `/api` al backend, así que no hace falta configurar CORS en desarrollo.
 
-Para apuntar a un backend desplegado, define `VITE_API_URL` (ej. `VITE_API_URL=https://mi-api.com npm run build`).
+Para apuntar a un backend desplegado, define `VITE_API_URL` (ej. `VITE_API_URL=https://mi-api.com pnpm run build`).
 
 ---
 
