@@ -84,6 +84,28 @@ export default function VisualGuideModal({ guideId, onClose }) {
         </div>
       </>
     );
+  } else if (guideId === 'precipitacion') {
+    content = (
+      <>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', color: '#1E293B' }}>Precipitación Acumulada</h3>
+        <div style={{ backgroundColor: '#EEF2FF', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #C7D2FE', marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+          <div style={{ fontSize: '2rem' }}>🌧️</div>
+          <div>
+            <p style={{ color: '#3730A3', margin: 0, fontSize: '0.9rem', lineHeight: '1.5' }}>
+              <strong>1 mm de lluvia</strong> equivale exactamente a <strong>1 litro de agua</strong> derramado sobre un área de 1 metro cuadrado.
+            </p>
+          </div>
+        </div>
+        <p style={{ color: '#475569', marginBottom: '1rem', fontSize: '0.9rem', lineHeight: '1.5' }}>
+          En la zona de Chosica, el suelo tiene poca capacidad de absorción.
+        </p>
+        <ul style={{ color: '#475569', fontSize: '0.9rem', lineHeight: '1.6', paddingLeft: '1.2rem', margin: 0 }}>
+          <li style={{ marginBottom: '0.5rem' }}><strong>Menos de 10 mm:</strong> Humedece la superficie pero no genera escorrentía peligrosa.</li>
+          <li style={{ marginBottom: '0.5rem' }}><strong>20 a 40 mm:</strong> Lluvia moderada a fuerte. Empiezan a formarse riachuelos.</li>
+          <li><strong style={{ color: '#DC2626' }}>60 mm o más (en 3 días):</strong> El suelo se satura por completo. Es el umbral crítico histórico donde las quebradas de Chosica se activan y descienden flujos de lodo y piedras.</li>
+        </ul>
+      </>
+    );
   }
 
   return (

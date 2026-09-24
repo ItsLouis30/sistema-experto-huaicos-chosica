@@ -157,7 +157,7 @@ h1, h2, h3, p { margin: 0; }
 }
 .content__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr) 340px;
   gap: 20px;
   align-items: start;
 }
@@ -301,6 +301,24 @@ h1, h2, h3, p { margin: 0; }
 }
 .chip.is-selected { background: var(--success-soft); border-color: var(--success-line); }
 .chip.is-selected:hover { background: #dcf5e5; }
+
+/* Temas semafóricos (Senamhi) */
+.chip--tema-rojo { transition: all 0.2s; }
+.chip--tema-rojo:hover { background: #fef2f2; border-color: #fca5a5; }
+.chip--tema-rojo.is-selected { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+.chip--tema-rojo.is-selected .chip__check { background: #dc2626; }
+.chip--tema-naranja { transition: all 0.2s; }
+.chip--tema-naranja:hover { background: #fff7ed; border-color: #fdba74; }
+.chip--tema-naranja.is-selected { background: #ffedd5; border-color: #ea580c; color: #9a3412; }
+.chip--tema-naranja.is-selected .chip__check { background: #ea580c; }
+.chip--tema-amarillo { transition: all 0.2s; }
+.chip--tema-amarillo:hover { background: #fefce8; border-color: #fde047; }
+.chip--tema-amarillo.is-selected { background: #fef9c3; border-color: #ca8a04; color: #854d0e; }
+.chip--tema-amarillo.is-selected .chip__check { background: #ca8a04; }
+.chip--tema-neutro { transition: all 0.2s; }
+.chip--tema-neutro:hover { background: #f8fafc; border-color: #cbd5e1; }
+.chip--tema-neutro.is-selected { background: #f1f5f9; border-color: #94a3b8; color: #334155; }
+.chip--tema-neutro.is-selected .chip__check { background: #64748b; }
 
 /* Números: stepper + slider */
 .number { display: flex; flex-direction: column; gap: 14px; }
@@ -484,10 +502,10 @@ h1, h2, h3, p { margin: 0; }
 .badge--hecho { background: var(--success-soft); color: var(--success); }
 .badge--actual { background: var(--primary-soft); color: var(--primary); }
 .badge--pendiente { border: 1px solid var(--line); color: var(--ink-3); }
-.timeline__facts { margin: 8px 0 0; display: grid; gap: 5px; }
-.timeline__facts div { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; }
-.timeline__facts dt { color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.timeline__facts dd { margin: 0; font-weight: 600; white-space: nowrap; }
+.timeline__facts { margin: 8px 0 0; display: grid; gap: 8px; }
+.timeline__facts div { display: flex; flex-direction: column; gap: 2px; }
+.timeline__facts dt { color: var(--ink-3); font-size: 11px; font-weight: 500; }
+.timeline__facts dd { margin: 0; font-weight: 600; font-size: 13px; color: var(--ink); word-break: break-word; }
 
 /* ---------- Resultado ---------- */
 .resultado { display: flex; flex-direction: column; gap: 20px; }

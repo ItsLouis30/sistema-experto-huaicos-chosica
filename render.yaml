@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: huaicos-chosica
+    name: sbc-huaicos-chosica-g8
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
