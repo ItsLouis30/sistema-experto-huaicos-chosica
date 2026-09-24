@@ -1,10 +1,12 @@
 # ---- 1. Compilar el frontend (React + Vite) ----
 FROM node:22-alpine AS frontend
 WORKDIR /web
-COPY frontend/package*.json ./
-RUN npm ci
+# Habilitar corepack para usar pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+COPY frontend/package.json frontend/pnpm-lock.yaml* ./
+RUN pnpm install --frozen-lockfile
 COPY frontend/ .
-RUN npm run build
+RUN pnpm run build
 
 # ---- 2. Backend FastAPI + CLIPS que también sirve el frontend ----
 FROM python:3.12-slim
