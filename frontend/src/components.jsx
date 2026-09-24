@@ -137,17 +137,20 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
     const n = Number.isFinite(v) ? Math.max(campo.min, v) : campo.min
     onChange(clave, Math.round(n * 10) / 10)
   }
-  const pct = Math.min(100, (valor / campo.max) * 100)
+
+  const valorEstablecido = valor !== null && valor !== undefined
+  const valVisual = valorEstablecido ? valor : campo.defecto
+  const pct = Math.min(100, (valVisual / campo.max) * 100)
 
   // Precipitación acumulada
-  const esCritico = valor >= 60
-  const esModerado = valor >= 16
+  const esCritico = valVisual >= 60
+  const esModerado = valVisual >= 16
   const numGotas = esCritico ? 14 : esModerado ? 9 : 4
   const estadoTexto = esCritico ? 'Umbral Crítico SENAMHI (≥ 60 mm)' : esModerado ? 'Lluvia Moderada (16 - 59 mm)' : 'Nivel Leve / Seco (0 - 15 mm)'
 
   // Distancia a la quebrada (Corte transversal reactivo)
-  const distCritica = valor <= 50
-  const distAlta = valor > 50 && valor <= 100
+  const distCritica = valVisual <= 50
+  const distAlta = valVisual > 50 && valVisual <= 100
   const distColor = distCritica ? '#dc2626' : distAlta ? '#d97706' : '#16a34a'
   const distClase = distCritica ? 'is-critica' : distAlta ? 'is-alta' : 'is-segura'
   const distTexto = distCritica 
@@ -156,7 +159,7 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
       ? 'Franja de exposición alta (51 - 100 m)' 
       : 'Margen de amortiguamiento (> 100 m)'
 
-  const pctPos = Math.min(1, Math.max(0, valor / 300))
+  const pctPos = Math.min(1, Math.max(0, valVisual / 300))
   const casaX = 48 + pctPos * (285 - 48)
   const casaY = 85 - pctPos * (85 - 20)
 
@@ -176,10 +179,10 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
       </div>
       <div className="number">
         <div className="number__stepper">
-          <button type="button" onClick={() => fijar(valor - campo.paso)} aria-label="Disminuir"><Icon.minus /></button>
-          <input id={clave} type="number" min={campo.min} step={campo.paso} value={valor} onChange={(e) => fijar(parseFloat(e.target.value))} />
+          <button type="button" onClick={() => fijar(valVisual - campo.paso)} aria-label="Disminuir"><Icon.minus /></button>
+          <input id={clave} type="number" min={campo.min} step={campo.paso} value={valorEstablecido ? valor : ""} placeholder={`${campo.defecto}`} onChange={(e) => fijar(parseFloat(e.target.value))} />
           <span className="number__unit">{campo.unidad}</span>
-          <button type="button" onClick={() => fijar(valor + campo.paso)} aria-label="Aumentar"><Icon.plus /></button>
+          <button type="button" onClick={() => fijar(valVisual + campo.paso)} aria-label="Aumentar"><Icon.plus /></button>
         </div>
 
         {clave === 'precipitacion_72h' && (
@@ -241,14 +244,14 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
             min={campo.min} 
             max={campo.max} 
             step={campo.paso} 
-            value={Math.min(valor, campo.max)} 
+            value={Math.min(valVisual, campo.max)} 
             onChange={(e) => fijar(parseFloat(e.target.value))} 
             style={{ '--pct': `${pct}%` }} 
             aria-label={campo.label} 
           />
           <div className="range__marks">
             {campo.umbrales.map((u) => (
-              <span key={u.valor} className={`range__mark ${(campo.alertaSiMayor ? valor >= u.valor : valor <= u.valor) ? 'is-hit' : ''}`} style={{ left: `${(u.valor / campo.max) * 100}%` }}>
+              <span key={u.valor} className={`range__mark ${valorEstablecido && (campo.alertaSiMayor ? valor >= u.valor : valor <= u.valor) ? 'is-hit' : ''}`} style={{ left: `${(u.valor / campo.max) * 100}%` }}>
                 <i />
                 <em>{u.texto}</em>
               </span>

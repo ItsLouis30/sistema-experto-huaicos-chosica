@@ -226,8 +226,8 @@ export const CAMPOS = {
 
 export function valoresIniciales() {
   const v = {}
-  for (const [clave, campo] of Object.entries(CAMPOS)) {
-    v[clave] = campo.tipo === 'numero' ? campo.defecto : null
+  for (const clave of Object.keys(CAMPOS)) {
+    v[clave] = null
   }
   return v
 }
