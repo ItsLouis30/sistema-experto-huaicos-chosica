@@ -6,6 +6,7 @@ import Resultado from './Result.jsx'
 import Metodologia from './Metodologia.jsx'
 import HeroHeader from './HeroHeader.jsx'
 import VisualGuideModal from './VisualGuideModal.jsx'
+import AdquisicionView from './AdquisicionView.jsx'
 
 const PASO_RESULTADO = PASOS.length
 
@@ -134,6 +135,11 @@ export default function App() {
                 <Resumen valores={valores} pasoActual={paso} onIr={ir} />
               </div>
             )}
+          </main>
+        )}
+        {vista === 'adquisicion' && (
+          <main className="main" style={{ overflowY: 'auto' }}>
+            <AdquisicionView />
           </main>
         )}
       </div>

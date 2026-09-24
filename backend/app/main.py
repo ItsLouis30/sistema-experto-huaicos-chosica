@@ -3,12 +3,13 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.evaluacion import router as evaluacion_router
+from app.api.adquisicion import router as adquisicion_router
 
 # Instanciamos la aplicación FastAPI
 app = FastAPI(
     title="Sistema Experto - Riesgo de Huaicos",
     description="API del Sistema Basado en el Conocimiento (SBC) para evaluar el riesgo en Lurigancho-Chosica.",
-    version="1.0.0"
+    version="1.1.0"
 )
 
 # Configuración de CORS
@@ -23,6 +24,7 @@ app.add_middleware(
 # Registramos el router que acabamos de crear en app/api/evaluacion.py
 # Todas las rutas tendrán el prefijo /api
 app.include_router(evaluacion_router, prefix="/api", tags=["Evaluación"])
+app.include_router(adquisicion_router, prefix="/api/conocimiento", tags=["Adquisición"])
 
 @app.get("/api/salud", tags=["Health"])
 def salud():
