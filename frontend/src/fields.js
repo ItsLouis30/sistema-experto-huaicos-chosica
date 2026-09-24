@@ -144,8 +144,8 @@ export const CAMPOS = {
     defecto: 150,
     guiaVisual: 'distancia',
     umbrales: [
-      { valor: 50, texto: 'Zona crítica ≤ 50 m' },
-      { valor: 100, texto: 'Exposición alta ≤ 100 m' },
+      { valor: 50, texto: '≤ 50 m' },
+      { valor: 100, texto: '≤ 100 m' },
     ],
   },
   ubic_cono_deyeccion: {

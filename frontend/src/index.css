@@ -394,6 +394,8 @@ h1, h2, h3, p { margin: 0; }
 
 .range { position: relative; padding-bottom: 4px; }
 .range input[type='range'] {
+  touch-action: pan-x;
+  -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -758,6 +760,8 @@ h1, h2, h3, p { margin: 0; }
   .form-card__head, .form-card__body, .form-card__foot { padding-left: 18px; padding-right: 18px; }
   .chip--rich { min-width: 0; flex: 1 1 140px; }
   .hero { flex-direction: column; padding: 22px; }
+  .range__mark em { font-size: 10px; max-width: 60px; text-align: center; }
+  .dist-svg-container { height: 80px; }
   .app h1 { font-size: 1.8rem !important; margin-bottom: 0.5rem !important; text-wrap: balance; line-height: 1.2 !important; }
   .app p { font-size: 0.9rem !important; margin-bottom: 1rem !important; }
 }
@@ -1003,6 +1007,7 @@ h1, h2, h3, p { margin: 0; }
 }
 
 .dist-svg-container {
+  pointer-events: none;
   width: 100%;
   height: 100px;
   position: relative;
