@@ -70,8 +70,6 @@ export default function HeroHeader({ enLinea }) {
           <span>Chosica, Lima</span>
           <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)' }} />
           <span>ODS 13: Acción por el Clima</span>
-          <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)' }} />
-          <span>Base de 66 Reglas</span>
         </div>
 
       </div>
