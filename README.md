@@ -102,3 +102,31 @@ Para verificar el funcionamiento lógico del encadenamiento hacia adelante y la 
 cd backend
 python tests/test_inference.py
 ```
+
+---
+
+## 🖥️ Cómo Ejecutar el Frontend
+
+Interfaz en **React + Vite** que guía al usuario en 4 pasos (Terreno → Clima → Ubicación → Vivienda) y muestra el resultado con la traza del Módulo de Explicación.
+
+1. Con el backend corriendo en el puerto `8000`, abre otra terminal:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+2. Abre [http://localhost:5173](http://localhost:5173). Vite redirige `/api` al backend, así que no hace falta configurar CORS en desarrollo.
+
+Para apuntar a un backend desplegado, define `VITE_API_URL` (ej. `VITE_API_URL=https://mi-api.com npm run build`).
+
+---
+
+## 🌐 Despliegue (link público en Render)
+
+El `Dockerfile` compila el frontend y lo sirve desde el mismo servidor FastAPI, así que es **un solo servicio**: la web en `/`, la API en `/api` y Swagger en `/docs`.
+
+1. Entra a [render.com](https://render.com) e inicia sesión con GitHub.
+2. **New → Blueprint** y elige este repositorio (Render lee `render.yaml`).
+3. Pulsa **Apply**. En unos minutos tendrás una URL como `https://huaicos-chosica.onrender.com`.
+
+Cada `git push` a la rama conectada vuelve a desplegar automáticamente. En el plan gratuito el servicio se duerme tras 15 min sin visitas; la primera carga después tarda ~30–50 s.

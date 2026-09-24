@@ -1,4 +1,6 @@
+from pathlib import Path
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.evaluacion import router as evaluacion_router
 
@@ -22,10 +24,20 @@ app.add_middleware(
 # Todas las rutas tendrán el prefijo /api
 app.include_router(evaluacion_router, prefix="/api", tags=["Evaluación"])
 
-@app.get("/", tags=["Health"])
-def root():
+@app.get("/api/salud", tags=["Health"])
+def salud():
     return {
         "estado": "operativo",
         "mensaje": "¡El motor del Sistema Experto está en línea!",
         "documentacion": "Visita /docs para probar la API interactiva."
     }
+
+# En producción el frontend compilado (frontend/dist) se sirve desde este mismo servidor.
+# Se monta al final para que no tape las rutas /api y /docs.
+FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+if FRONTEND_DIST.is_dir():
+    app.mount("/", StaticFiles(directory=FRONTEND_DIST, html=True), name="frontend")
+else:
+    @app.get("/", tags=["Health"])
+    def root():
+        return salud()
