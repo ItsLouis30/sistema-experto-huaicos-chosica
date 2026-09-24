@@ -68,16 +68,27 @@ export function Stepper({ actual, completos, onIr }) {
 }
 
 // ---------- Grupo de chips (selección única) ----------
-export function ChipGroup({ clave, valores, onChange }) {
+export function ChipGroup({ clave, valores, onChange, onOpenGuide }) {
   const campo = CAMPOS[clave]
   const opciones = opcionesVisibles(clave, valores)
   const valor = valores[clave]
   const bloqueado = clave === 'estado_obra_mitigacion' && !valores.obra_mitigacion_cercana
   return (
     <div className="field">
-      <div className="field__label" id={`${clave}-label`}>
-        {campo.label}
-        {campo.ayuda && <span className="field__help">{campo.ayuda}</span>}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+        <div className="field__label" id={`${clave}-label`} style={{ marginBottom: 0 }}>
+          {campo.label}
+          {campo.ayuda && <span className="field__help">{campo.ayuda}</span>}
+        </div>
+        {campo.guiaVisual && (
+          <button type="button" onClick={() => onOpenGuide(campo.guiaVisual)} style={{
+            fontSize: '0.75rem', fontWeight: '600', color: '#4F46E5', backgroundColor: '#EEF2FF',
+            padding: '4px 10px', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '6px',
+            border: '1px solid #C7D2FE', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0
+          }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#E0E7FF' }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#EEF2FF' }}>
+            ¿Cómo medir esto? <span style={{ fontSize: '14px' }}>📐</span>
+          </button>
+        )}
       </div>
       {bloqueado ? (
         <p className="field__hint">Primero indica si existe una obra de mitigación.</p>
@@ -96,6 +107,7 @@ export function ChipGroup({ clave, valores, onChange }) {
               >
                 {activo && <span className="chip__check"><Icon.check width={12} height={12} /></span>}
                 <span className="chip__text">
+                  {o.grafico && <span className="chip__icon" style={{ display: 'block', marginBottom: '0.5rem', color: activo ? '#4F46E5' : '#94A3B8', transition: 'color 0.2s' }} dangerouslySetInnerHTML={{ __html: o.grafico }} />}
                   <strong>{o.label}</strong>
                   {o.detalle && <small>{o.detalle}</small>}
                 </span>
@@ -109,7 +121,7 @@ export function ChipGroup({ clave, valores, onChange }) {
 }
 
 // ---------- Campo numérico con +/- y slider ----------
-export function NumberField({ clave, valores, onChange }) {
+export function NumberField({ clave, valores, onChange, onOpenGuide }) {
   const campo = CAMPOS[clave]
   const valor = valores[clave]
   const fijar = (v) => {
@@ -119,7 +131,18 @@ export function NumberField({ clave, valores, onChange }) {
   const pct = Math.min(100, (valor / campo.max) * 100)
   return (
     <div className="field">
-      <label className="field__label" htmlFor={clave}>{campo.label}</label>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <label className="field__label" htmlFor={clave} style={{ marginBottom: 0 }}>{campo.label}</label>
+        {campo.guiaVisual && (
+          <button type="button" onClick={() => onOpenGuide(campo.guiaVisual)} style={{
+            fontSize: '0.75rem', fontWeight: '600', color: '#4F46E5', backgroundColor: '#EEF2FF',
+            padding: '4px 10px', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '6px',
+            border: '1px solid #C7D2FE', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0
+          }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#E0E7FF' }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#EEF2FF' }}>
+            ¿Cómo medir esto? <span style={{ fontSize: '14px' }}>📐</span>
+          </button>
+        )}
+      </div>
       <div className="number">
         <div className="number__stepper">
           <button type="button" onClick={() => fijar(valor - campo.paso)} aria-label="Disminuir"><Icon.minus /></button>

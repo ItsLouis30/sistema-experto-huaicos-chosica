@@ -49,9 +49,24 @@ export const CAMPOS = {
     label: 'Pendiente del terreno',
     ayuda: 'Inclinación de la ladera sobre la que se asienta la vivienda.',
     opciones: [
-      { value: 'alta', label: 'Alta', detalle: 'Ladera empinada' },
-      { value: 'media', label: 'Media', detalle: 'Inclinación moderada' },
-      { value: 'baja', label: 'Baja', detalle: 'Terreno plano' },
+      { 
+        value: 'alta', 
+        label: 'Alta', 
+        detalle: 'Ladera empinada',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,35 L35,5 L35,35 Z" fill="currentColor" fill-opacity="0.1" stroke-linejoin="round" /></svg>'
+      },
+      { 
+        value: 'media', 
+        label: 'Media', 
+        detalle: 'Inclinación moderada',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,35 L35,20 L35,35 Z" fill="currentColor" fill-opacity="0.1" stroke-linejoin="round" /></svg>'
+      },
+      { 
+        value: 'baja', 
+        label: 'Baja', 
+        detalle: 'Terreno plano',
+        grafico: '<svg viewBox="0 0 40 40" width="40" height="40" stroke="currentColor" fill="none" stroke-width="2"><path d="M5,35 L35,35" stroke-linecap="round" /><path d="M10,35 L10,30 M20,35 L20,30 M30,35 L30,30" /></svg>'
+      },
     ],
   },
   tipo_suelo_superficial: {
@@ -101,6 +116,7 @@ export const CAMPOS = {
     max: 300,
     paso: 5,
     defecto: 150,
+    guiaVisual: 'distancia',
     umbrales: [
       { valor: 50, texto: 'Zona crítica ≤ 50 m' },
       { valor: 100, texto: 'Exposición alta ≤ 100 m' },
@@ -110,6 +126,7 @@ export const CAMPOS = {
     tipo: 'opciones',
     label: '¿Está sobre el cono de deyección?',
     ayuda: 'Abanico de sedimentos donde la quebrada desemboca y deposita el material.',
+    guiaVisual: 'cono',
     opciones: SI_NO,
   },
   obra_mitigacion_cercana: {
@@ -124,6 +141,7 @@ export const CAMPOS = {
   estado_obra_mitigacion: {
     tipo: 'opciones',
     label: 'Estado de la obra',
+    guiaVisual: 'dique',
     opciones: [
       { value: 'operativo', label: 'Operativa' },
       { value: 'colmatada_o_deteriorada', label: 'Colmatada o deteriorada' },

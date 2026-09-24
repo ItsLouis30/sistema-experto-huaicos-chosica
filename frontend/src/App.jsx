@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { evaluarRiesgo, verificarEstado } from './api.js'
 import { CAMPOS, PASOS, valoresIniciales } from './fields.js'
 import { ChipGroup, Icon, NumberField, Resumen, Sidebar, Stepper } from './components.jsx'
 import Resultado from './Result.jsx'
 import Metodologia from './Metodologia.jsx'
 import HeroHeader from './HeroHeader.jsx'
+import VisualGuideModal from './VisualGuideModal.jsx'
 
 const PASO_RESULTADO = PASOS.length
 
 export default function App() {
   const [vista, setVista] = useState('evaluacion')
+  const [guiaActiva, setGuiaActiva] = useState(null)
   const [paso, setPaso] = useState(0)
   const [valores, setValores] = useState(valoresIniciales)
   const [resultado, setResultado] = useState(null)
@@ -103,9 +105,9 @@ export default function App() {
                   <div className="form-card__body">
                     {pasoInfo.campos.map((c) =>
                       CAMPOS[c].tipo === 'numero' ? (
-                        <NumberField key={c} clave={c} valores={valores} onChange={cambiar} />
+                        <NumberField key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
                       ) : (
-                        <ChipGroup key={c} clave={c} valores={valores} onChange={cambiar} />
+                        <ChipGroup key={c} clave={c} valores={valores} onChange={cambiar} onOpenGuide={setGuiaActiva} />
                       ),
                     )}
                   </div>
@@ -135,6 +137,7 @@ export default function App() {
           </main>
         )}
       </div>
+      <VisualGuideModal guideId={guiaActiva} onClose={() => setGuiaActiva(null)} />
     </div>
   )
 }
