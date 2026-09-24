@@ -127,9 +127,9 @@ export const CAMPOS = {
     defecto: 20,
     guiaVisual: 'precipitacion',
     presets: [
-      { valor: 5, label: '💧 Llovizna o seco (0 - 10 mm)' },
-      { valor: 30, label: '🌧️ Lluvia moderada (20 - 40 mm)' },
-      { valor: 65, label: '⛈️ Lluvia torrencial / saturación (≥ 60 mm)' },
+      { valor: 5, label: 'Llovizna o seco (0 - 10 mm)' },
+      { valor: 30, label: 'Lluvia moderada (20 - 40 mm)' },
+      { valor: 65, label: 'Lluvia torrencial / saturación (≥ 60 mm)' },
     ],
     alertaSiMayor: true,
     umbrales: [{ valor: 60, texto: 'Lluvia intensa ≥ 60 mm' }],

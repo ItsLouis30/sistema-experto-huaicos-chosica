@@ -859,3 +859,100 @@ h1, h2, h3, p { margin: 0; }
 .chip.is-selected .anim-reposo {
   animation: reposoEcologico 1.8s infinite ease-in-out;
 }
+
+/* ---------- Recuadro de Monitoreo Pluviométrico Reactivo (SIN EMOJIS) ---------- */
+.pluvio-monitor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin: 12px 0 6px 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.pluvio-monitor.is-light {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.pluvio-monitor.is-moderate {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.pluvio-monitor.is-critical {
+  border-color: #fca5a5;
+  background: #fff1f2;
+  box-shadow: 0 0 12px rgba(225, 29, 72, 0.15);
+  animation: pulsoCritico 1.8s infinite ease-in-out;
+}
+
+@keyframes pulsoCritico {
+  0%, 100% { border-color: #fca5a5; box-shadow: 0 0 8px rgba(225, 29, 72, 0.15); }
+  50% { border-color: #f87171; box-shadow: 0 0 16px rgba(225, 29, 72, 0.3); }
+}
+
+.pluvio-monitor__rain {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  background: rgba(15, 23, 42, 0.05);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pluvio-monitor.is-critical .pluvio-monitor__rain {
+  background: rgba(225, 29, 72, 0.08);
+}
+
+.pluvio-drop {
+  position: absolute;
+  top: -8px;
+  width: 1.8px;
+  height: 10px;
+  background: #3b82f6;
+  border-radius: 999px;
+  animation: caidaGotaPluvio 0.8s infinite linear;
+}
+
+.pluvio-monitor.is-light .pluvio-drop {
+  background: #94a3b8;
+  opacity: 0.6;
+}
+
+.pluvio-monitor.is-moderate .pluvio-drop {
+  background: #2563eb;
+  opacity: 0.85;
+}
+
+.pluvio-monitor.is-critical .pluvio-drop {
+  background: #e11d48;
+  opacity: 1;
+  transform: rotate(-12deg);
+}
+
+@keyframes caidaGotaPluvio {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(34px); opacity: 0; }
+}
+
+.pluvio-monitor__status {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.pluvio-monitor.is-moderate .pluvio-monitor__status {
+  color: #1d4ed8;
+}
+
+.pluvio-monitor.is-critical .pluvio-monitor__status {
+  color: #be123c;
+}

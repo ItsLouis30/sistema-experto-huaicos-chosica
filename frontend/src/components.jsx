@@ -95,7 +95,7 @@ export function ChipGroup({ clave, valores, onChange, onOpenGuide }) {
             padding: '4px 10px', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '6px',
             border: '1px solid #C7D2FE', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0
           }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#E0E7FF' }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#EEF2FF' }}>
-            ¿Cómo medir esto? <span style={{ fontSize: '14px' }}>📐</span>
+            ¿Cómo medir esto?
           </button>
         )}
       </div>
@@ -138,6 +138,12 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
     onChange(clave, Math.round(n * 10) / 10)
   }
   const pct = Math.min(100, (valor / campo.max) * 100)
+
+  const esCritico = valor >= 60
+  const esModerado = valor >= 16
+  const numGotas = esCritico ? 14 : esModerado ? 9 : 4
+  const estadoTexto = esCritico ? 'Umbral Crítico SENAMHI (≥ 60 mm)' : esModerado ? 'Lluvia Moderada (16 - 59 mm)' : 'Nivel Leve / Seco (0 - 15 mm)'
+
   return (
     <div className="field">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
@@ -148,7 +154,7 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
             padding: '4px 10px', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '6px',
             border: '1px solid #C7D2FE', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0
           }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#E0E7FF' }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#EEF2FF' }}>
-            ¿Cómo medir esto? <span style={{ fontSize: '14px' }}>📐</span>
+            ¿Cómo medir esto?
           </button>
         )}
       </div>
@@ -159,8 +165,37 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
           <span className="number__unit">{campo.unidad}</span>
           <button type="button" onClick={() => fijar(valor + campo.paso)} aria-label="Aumentar"><Icon.plus /></button>
         </div>
+
+        {clave === 'precipitacion_72h' && (
+          <div className={`pluvio-monitor ${esCritico ? 'is-critical' : esModerado ? 'is-moderate' : 'is-light'}`}>
+            <div className="pluvio-monitor__rain">
+              {Array.from({ length: numGotas }).map((_, i) => (
+                <span
+                  key={i}
+                  className="pluvio-drop"
+                  style={{
+                    left: `${(i * 19 + 5) % 84 + 8}%`,
+                    animationDuration: `${esCritico ? 0.35 : esModerado ? 0.7 : 1.4}s`,
+                    animationDelay: `${(i * 0.1) % 0.6}s`
+                  }}
+                />
+              ))}
+            </div>
+            <span className="pluvio-monitor__status">{estadoTexto}</span>
+          </div>
+        )}
+
         <div className="range">
-          <input type="range" min={campo.min} max={campo.max} step={campo.paso} value={Math.min(valor, campo.max)} onChange={(e) => fijar(parseFloat(e.target.value))} style={{ '--pct': `${pct}%` }} aria-label={campo.label} />
+          <input 
+            type="range" 
+            min={campo.min} 
+            max={campo.max} 
+            step={campo.paso} 
+            value={Math.min(valor, campo.max)} 
+            onChange={(e) => fijar(parseFloat(e.target.value))} 
+            style={{ '--pct': `${pct}%` }} 
+            aria-label={campo.label} 
+          />
           <div className="range__marks">
             {campo.umbrales.map((u) => (
               <span key={u.valor} className={`range__mark ${(campo.alertaSiMayor ? valor >= u.valor : valor <= u.valor) ? 'is-hit' : ''}`} style={{ left: `${(u.valor / campo.max) * 100}%` }}>
@@ -171,6 +206,7 @@ export function NumberField({ clave, valores, onChange, onOpenGuide }) {
           </div>
           <div className="range__ends"><span>{campo.min} {campo.unidad}</span><span>{campo.max}+ {campo.unidad}</span></div>
         </div>
+
         {campo.presets && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
             {campo.presets.map((preset) => (
