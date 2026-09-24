@@ -38,8 +38,8 @@ export default function ReglasView() {
         {loading ? (
           <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--ink-3)' }}>Cargando reglas desde el motor CLIPS...</div>
         ) : (
-          <div className="card__body" style={{ padding: '0 24px 24px' }}>
-            <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="card__body" style={{ padding: '0 12px 12px' }}>
+            <div style={{ marginBottom: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
               <label style={{ fontWeight: '600', color: 'var(--ink)' }}>Filtrar por módulo:</label>
               <select 
                 value={filtro} 
@@ -52,8 +52,8 @@ export default function ReglasView() {
 
             <div style={{ display: 'grid', gap: '16px' }}>
               {reglasFiltradas.map(regla => (
-                <div key={regla.id} style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', borderLeft: '4px solid var(--primary)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                <div key={regla.id} style={{ backgroundColor: '#fff', padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', borderLeft: '4px solid var(--primary)' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                     <div>
                       <h4 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--ink)', margin: 0 }}>
                         <span style={{ color: 'var(--primary)', marginRight: '8px' }}>{regla.id}</span>

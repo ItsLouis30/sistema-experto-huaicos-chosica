@@ -110,12 +110,12 @@ export default function AdquisicionView() {
           </div>
 
       {tab === 'proponer' && (
-        <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '2rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+        <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '1rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
           <div style={{ padding: '1rem', backgroundColor: '#FEF3C7', borderLeft: '4px solid #F59E0B', color: '#92400E', marginBottom: '2rem', fontSize: '0.9rem' }}>
             <strong>Nota técnica:</strong> Las reglas propuestas entrarán a una etapa de revisión técnica y validación antes de su homologación e incorporación en la base de conocimiento CLIPS de 66 reglas.
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.75rem', marginBottom: '1rem' }}>
             <div>
               <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem', color: '#334155' }}>Módulo</label>
               <select value={modulo} onChange={e=>setModulo(e.target.value)} style={{ width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #CBD5E1' }}>
@@ -131,10 +131,10 @@ export default function AdquisicionView() {
             </div>
           </div>
 
-          <fieldset style={{ border: '1px solid #E2E8F0', padding: '1.5rem', borderRadius: '0.5rem', marginBottom: '1.5rem' }}>
+          <fieldset style={{ border: '1px solid #E2E8F0', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
             <legend style={{ fontWeight: 'bold', color: '#4F46E5', padding: '0 0.5rem' }}>SI (Antecedentes)</legend>
             {antecedentes.map((ant, idx) => (
-              <div key={idx} style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', alignItems: 'center' }}>
+              <div key={idx} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem', alignItems: 'center' }}>
                 <input value={ant.variable} onChange={e=>updateAntecedente(idx, 'variable', e.target.value)} placeholder="Variable" style={{ flex: 1, padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #CBD5E1' }} />
                 <select value={ant.operador} onChange={e=>updateAntecedente(idx, 'operador', e.target.value)} style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #CBD5E1' }}>
                   <option>==</option><option>&gt;=</option><option>&lt;=</option><option>!=</option>
@@ -146,15 +146,15 @@ export default function AdquisicionView() {
             <button type="button" onClick={addAntecedente} style={{ color: '#4F46E5', fontSize: '0.9rem', fontWeight: '600' }}>+ Añadir condición</button>
           </fieldset>
 
-          <fieldset style={{ border: '1px solid #E2E8F0', padding: '1.5rem', borderRadius: '0.5rem', marginBottom: '1.5rem' }}>
+          <fieldset style={{ border: '1px solid #E2E8F0', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
             <legend style={{ fontWeight: 'bold', color: '#10B981', padding: '0 0.5rem' }}>ENTONCES (Consecuente)</legend>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
               <input value={consecuenteVar} onChange={e=>setConsecuenteVar(e.target.value)} placeholder="Variable de salida" style={{ flex: 1, padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #CBD5E1' }} />
               <input value={consecuenteVal} onChange={e=>setConsecuenteVal(e.target.value)} placeholder="Valor asignado" style={{ flex: 1, padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #CBD5E1' }} />
             </div>
           </fieldset>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.75rem', marginBottom: '1rem' }}>
             <div>
               <label style={{ display: 'block', fontWeight: '600', marginBottom: '0.5rem', color: '#334155' }}>Fuente Oficial</label>
               <input required value={fuente} onChange={e=>setFuente(e.target.value)} placeholder="Ej. INGEMMET" style={{ width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid #CBD5E1' }} />
@@ -179,7 +179,7 @@ export default function AdquisicionView() {
       {tab === 'bandeja' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {propuestas.length === 0 ? <p>No hay propuestas registradas.</p> : propuestas.map(p => (
-            <div key={p.id} style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: '1rem', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', borderLeft: `4px solid ${p.estado === 'aprobada' ? '#10B981' : p.estado === 'rechazada' ? '#EF4444' : '#F59E0B'}` }}>
+            <div key={p.id} style={{ backgroundColor: '#fff', padding: '0.75rem', borderRadius: '1rem', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', borderLeft: `4px solid ${p.estado === 'aprobada' ? '#10B981' : p.estado === 'rechazada' ? '#EF4444' : '#F59E0B'}` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <div>
                   <strong style={{ fontSize: '1.1rem', color: '#1E293B' }}>{p.nombre_regla}</strong>
