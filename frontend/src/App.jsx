@@ -148,9 +148,7 @@ export default function App() {
                 <h1>Base de Conocimiento</h1>
               </div>
             </header>
-            <main className="main" style={{ overflowY: 'auto', flex: 1, paddingBottom: '2rem' }}>
-              <ReglasView />
-            </main>
+            <ReglasView />
           </>
         )}
 
@@ -161,9 +159,7 @@ export default function App() {
                 <h1>Portal de Expertos</h1>
               </div>
             </header>
-            <main className="main" style={{ overflowY: 'auto', flex: 1, paddingBottom: '2rem' }}>
-              <AdquisicionView />
-            </main>
+            <AdquisicionView />
           </>
         )}
       </div>

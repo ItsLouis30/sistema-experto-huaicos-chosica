@@ -28,54 +28,60 @@ export default function ReglasView() {
   const reglasFiltradas = filtro === 'Todos' ? reglas : reglas.filter(r => r.modulo === filtro)
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#1E293B', marginBottom: '0.5rem' }}>Diccionario de Reglas (SBC)</h1>
-      <p style={{ color: '#475569', marginBottom: '2rem' }}>
-        Las 66 reglas operativas del motor de inferencia CLIPS, extraídas directamente de <code>rules.clp</code>.
-      </p>
+    <main className="content">
+      <section className="card">
+        <header className="card__head">
+          <h3>Diccionario de Reglas (SBC)</h3>
+          <p>Las 66 reglas operativas del motor de inferencia CLIPS, extraídas directamente de <code>rules.clp</code>.</p>
+        </header>
 
-      {loading ? (
-        <div style={{ textAlign: 'center', color: '#64748B', padding: '2rem' }}>Cargando reglas desde el motor CLIPS...</div>
-      ) : (
-        <>
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ fontWeight: '600', marginRight: '1rem', color: '#334155' }}>Filtrar por módulo:</label>
-            <select value={filtro} onChange={e => setFiltro(e.target.value)} style={{ padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid #CBD5E1', backgroundColor: '#fff', color: '#1E293B' }}>
-              {modulos.map(m => <option key={m} value={m}>{m}</option>)}
-            </select>
-          </div>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--ink-3)' }}>Cargando reglas desde el motor CLIPS...</div>
+        ) : (
+          <div className="card__body" style={{ padding: '0 24px 24px' }}>
+            <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <label style={{ fontWeight: '600', color: 'var(--ink)' }}>Filtrar por módulo:</label>
+              <select 
+                value={filtro} 
+                onChange={e => setFiltro(e.target.value)} 
+                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--line)', backgroundColor: '#fff', color: 'var(--ink)' }}
+              >
+                {modulos.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
 
-          <div style={{ display: 'grid', gap: '1rem' }}>
-            {reglasFiltradas.map(regla => (
-              <div key={regla.id} style={{ backgroundColor: '#fff', padding: '1.5rem', borderRadius: '0.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #E2E8F0', borderLeft: '4px solid #4F46E5' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                  <div>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#1E293B', margin: 0 }}>
-                      <span style={{ color: '#4F46E5', marginRight: '0.5rem' }}>{regla.id}</span>
-                      {regla.nombre}
-                    </h3>
-                    <div style={{ color: '#64748B', fontSize: '0.85rem', marginTop: '0.25rem' }}>Módulo: {regla.modulo}</div>
+            <div style={{ display: 'grid', gap: '16px' }}>
+              {reglasFiltradas.map(regla => (
+                <div key={regla.id} style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', borderLeft: '4px solid var(--primary)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <div>
+                      <h4 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--ink)', margin: 0 }}>
+                        <span style={{ color: 'var(--primary)', marginRight: '8px' }}>{regla.id}</span>
+                        {regla.nombre}
+                      </h4>
+                      <div style={{ color: 'var(--ink-3)', fontSize: '0.85rem', marginTop: '4px' }}>Módulo: {regla.modulo}</div>
+                    </div>
+                    <span style={{ backgroundColor: 'var(--primary-soft)', color: 'var(--primary-dark)', padding: '4px 12px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: '600' }}>
+                      Fuente: {regla.fuente}
+                    </span>
                   </div>
-                  <span style={{ backgroundColor: '#EEF2FF', color: '#3730A3', padding: '0.25rem 0.75rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: '600' }}>
-                    Fuente: {regla.fuente}
-                  </span>
-                </div>
 
-                <div style={{ backgroundColor: '#F8FAFC', padding: '1rem', borderRadius: '0.5rem', fontFamily: 'monospace', fontSize: '0.85rem', color: '#334155' }}>
-                  <div style={{ color: '#4F46E5', fontWeight: 'bold' }}>SI</div>
-                  {regla.condiciones.map((c, i) => (
-                    <div key={i} style={{ paddingLeft: '1rem' }}>{c}</div>
-                  ))}
-                  <div style={{ color: '#10B981', fontWeight: 'bold', marginTop: '0.5rem' }}>ENTONCES</div>
-                  {regla.consecuencias.map((c, i) => (
-                    <div key={i} style={{ paddingLeft: '1rem' }}>{c}</div>
-                  ))}
+                  <div style={{ backgroundColor: 'var(--bg-soft)', padding: '16px', borderRadius: '8px', fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--ink-2)' }}>
+                    <div style={{ color: 'var(--primary)', fontWeight: 'bold' }}>SI</div>
+                    {regla.condiciones.map((c, i) => (
+                      <div key={i} style={{ paddingLeft: '16px' }}>{c}</div>
+                    ))}
+                    <div style={{ color: 'var(--success)', fontWeight: 'bold', marginTop: '8px' }}>ENTONCES</div>
+                    {regla.consecuencias.map((c, i) => (
+                      <div key={i} style={{ paddingLeft: '16px' }}>{c}</div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </section>
+    </main>
   )
 }

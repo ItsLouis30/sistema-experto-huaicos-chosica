@@ -88,22 +88,26 @@ export default function AdquisicionView() {
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#1E293B', marginBottom: '0.5rem' }}>Adquisición de Conocimiento</h1>
-      <p style={{ color: '#475569', marginBottom: '2rem' }}>Módulo de integración y validación de reglas propuestas por expertos.</p>
+    <main className="content">
+      <section className="card">
+        <header className="card__head">
+          <h3>Adquisición de Conocimiento</h3>
+          <p>Módulo de integración y validación de reglas propuestas por expertos.</p>
+        </header>
 
-      <div style={{ display: 'flex', gap: '1rem', borderBottom: '1px solid #E2E8F0', marginBottom: '2rem' }}>
-        <button 
-          onClick={() => setTab('proponer')} 
-          style={{ padding: '0.75rem 1.5rem', fontWeight: '600', borderBottom: tab === 'proponer' ? '2px solid #4F46E5' : 'none', color: tab === 'proponer' ? '#4F46E5' : '#64748B' }}>
-          Proponer Nueva Regla
-        </button>
-        <button 
-          onClick={() => setTab('bandeja')} 
-          style={{ padding: '0.75rem 1.5rem', fontWeight: '600', borderBottom: tab === 'bandeja' ? '2px solid #4F46E5' : 'none', color: tab === 'bandeja' ? '#4F46E5' : '#64748B' }}>
-          Bandeja de Validación
-        </button>
-      </div>
+        <div className="card__body" style={{ padding: '0 24px 24px' }}>
+          <div style={{ display: 'flex', gap: '16px', borderBottom: '1px solid var(--line)', marginBottom: '24px' }}>
+            <button 
+              onClick={() => setTab('proponer')} 
+              style={{ padding: '12px 24px', fontWeight: '600', borderBottom: tab === 'proponer' ? '2px solid var(--primary)' : '2px solid transparent', color: tab === 'proponer' ? 'var(--primary)' : 'var(--ink-3)', background: 'transparent', cursor: 'pointer' }}>
+              Proponer Nueva Regla
+            </button>
+            <button 
+              onClick={() => setTab('bandeja')} 
+              style={{ padding: '12px 24px', fontWeight: '600', borderBottom: tab === 'bandeja' ? '2px solid var(--primary)' : '2px solid transparent', color: tab === 'bandeja' ? 'var(--primary)' : 'var(--ink-3)', background: 'transparent', cursor: 'pointer' }}>
+              Bandeja de Validación
+            </button>
+          </div>
 
       {tab === 'proponer' && (
         <form onSubmit={handleSubmit} style={{ backgroundColor: '#fff', padding: '2rem', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
@@ -206,6 +210,8 @@ export default function AdquisicionView() {
           ))}
         </div>
       )}
-    </div>
+        </div>
+      </section>
+    </main>
   )
 }

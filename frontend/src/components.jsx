@@ -29,9 +29,9 @@ export const Icon = {
 export function Sidebar({ vista, onVista }) {
   const items = [
     { id: 'evaluacion', icon: Icon.form, label: 'Evaluación' },
-    { id: 'metodologia', icon: Icon.book, label: 'Metodología' },
-    { id: 'reglas', icon: Icon.list, label: 'Base de Reglas' },
     { id: 'adquisicion', icon: Icon.brain, label: 'Portal Expertos' },
+    { id: 'reglas', icon: Icon.list, label: 'Base de Reglas' },
+    { id: 'metodologia', icon: Icon.book, label: 'Metodología' },
   ]
   return (
     <aside className="sidebar">
