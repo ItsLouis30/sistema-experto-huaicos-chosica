@@ -1,4 +1,4 @@
-# Sistema Experto para la Prevención y Evaluación del Riesgo por Flujo de Detritos (Huaicos) en Viviendas Ubicadas en Zonas de Influencia de Quebradas del Distrito de Lurigancho-Chosica
+# Sistema Experto para la Prevención y Evaluación del Riesgo por Flujo de Detritos (Huaicos) en Lurigancho-Chosica
 
 ## 📌 Visión General del Proyecto
 **Enfoque Principal:** Prevención y preparación ante desastres naturales (Gestión Prospectiva y Correctiva del Riesgo). No es un sistema de rescate en tiempo real, sino una herramienta para democratizar información técnica compleja, permitiendo que ciudadanos y autoridades locales identifiquen su nivel de riesgo y actúen preventivamente.
@@ -13,125 +13,90 @@
 
 ---
 
-## 🏛️ Arquitectura del Sistema Experto
+## 🏛️ Arquitectura Estricta de Sistema Experto (SBC)
 
-El proyecto sigue la arquitectura teórica de un Sistema Experto, separando el conocimiento del control lógico.
+Este proyecto ha sido diseñado e implementado respetando **estrictamente la arquitectura de los Sistemas Basados en el Conocimiento (SBC)**. Cada componente teórico tiene una manifestación directa en el código:
 
 ### 1. Componentes Principales (Indispensables)
-* **Base de Conocimiento (BC):** Repositorio independiente donde se almacenan las reglas e hipótesis del dominio (ej. matrices CENEPRED).
-* **Base de Hechos (BH):** Memoria temporal que almacena las entradas del usuario y los resultados deducidos.
-* **Motor de Inferencia:** El algoritmo central que aplica razonamiento (encadenamiento hacia adelante/atrás) cruzando la BC y la BH.
+* **Base de Conocimiento (BC):** Repositorio declarativo e independiente donde residen las heurísticas y la normativa. Contiene 66 reglas operativas escritas en formato nativo `CLIPS` (`rules.clp`), aislando el conocimiento de la lógica de programación.
+* **Base de Hechos (BH):** La "memoria de trabajo" del sistema. Inicia con los datos proporcionados por el usuario (ej. `(pendiente_terreno alta)`) y se enriquece dinámicamente con los hechos intermedios que el motor va infiriendo (ej. `(susceptibilidad_base media)`).
+* **Motor de Inferencia:** El algoritmo central. Hemos implementado el motor oficial **C-CLIPS** (vía `clipspy`), ejecutando un razonamiento por encadenamiento hacia adelante (*Forward Chaining*). El motor evalúa exhaustivamente la BC contra la BH hasta alcanzar un estado de saturación lógica (el riesgo final).
 
-### 2. Componentes Secundarios (Implementados y 100% Funcionales)
-* **Módulo de Interfaz de Usuario:** Gobierna el diálogo entre el usuario y el sistema. Guiado visualmente por pasos, con iconografía semafórica y tooltips pedagógicos para métricas complejas (ej. diagramas del cono de deyección o milímetros de lluvia).
-* **Módulo de Explicación:** Permite trazar la ruta de razonamiento de forma transparente, mostrando explícitamente qué reglas (ID y justificación) se dispararon para llegar a una conclusión.
-* **Módulo de Adquisición de Conocimiento (Portal de Expertos):** Interfaz dedicada aislada del motor principal. Permite a los especialistas proponer nuevas reglas lógicas con sus respectivos antecedentes, consecuentes, fuente y justificación técnica. Estas se almacenan en una "bandeja de validación" (JSON en formato staging) donde pueden ser homologadas o rechazadas sin comprometer la BC oficial.
-* **Base de Reglas (Diccionario SBC):** Un catálogo dinámico integrado en el frontend que expone y traduce las 66 reglas operativas escritas en C/CLIPS a una sintaxis limpia y legible por ciudadanos y gestores.
+### 2. Componentes Secundarios (100% Funcionales)
+* **Módulo de Interfaz de Usuario:** Gobierna el diálogo entre el usuario y el sistema. Guiado visualmente por pasos, con iconografía semafórica y tooltips pedagógicos para métricas complejas (ej. diagramas interactivos para medir distancias al cauce).
+* **Módulo de Explicación:** Otorga transparencia al "caja negra" de la IA. Permite trazar la ruta de razonamiento exacto, mostrando explícitamente al usuario qué reglas (ID y justificación técnica) se dispararon para deducir su nivel de riesgo.
+* **Módulo de Adquisición de Conocimiento (Portal de Expertos):** Interfaz dedicada para el refinamiento de la Base de Conocimiento. Permite a los especialistas proponer nuevas reglas lógicas con sus respectivos antecedentes y consecuentes. Estas reglas no alteran la BC principal directamente, sino que pasan a un entorno de "Staging" o validación para su posterior homologación técnica.
 
 ---
 
-## 📂 Estructura de Carpetas para el Equipo
+## 📂 Mapeo de la Arquitectura al Repositorio
 
-Para mantener el orden y seguir la arquitectura conceptual, el repositorio está dividido en los siguientes módulos. **Por favor ubicar el código en la carpeta correspondiente:**
+Para evidenciar la implementación del Sistema Experto, la estructura del proyecto refleja cada uno de sus 6 componentes teóricos:
 
 ```text
 sistema-experto-g8/
 ├── backend/                  
-│   ├── app/                  # Núcleo del Sistema Experto (SBC)
-│   │   ├── api/              # Endpoints de FastAPI (evaluacion, adquisicion, reglas)
-│   │   ├── explanation/      # Módulo de Explicación (Traza de reglas)
-│   │   ├── inference/        # Motor de Inferencia (clipspy)
-│   │   ├── knowledge/        # Base de Conocimiento (rules.clp y propuestas_reglas.json)
-│   │   ├── schemas/          # Modelos de Pydantic para validación de datos
-│   │   ├── services/         # Lógica adicional del negocio
+│   ├── app/
+│   │   ├── api/              # Controladores (Adquisición, Evaluación, Reglas)
+│   │   ├── explanation/      # 🧠 [Módulo de Explicación]: Traza las reglas disparadas
+│   │   ├── inference/        # ⚙️ [Motor de Inferencia]: Enlace en C con CLIPS
+│   │   ├── knowledge/        # 📚 [Base de Conocimiento]: rules.clp y staging de reglas
 │   │   └── main.py           # Punto de entrada de la aplicación
-│   ├── tests/                # Pruebas unitarias y de integración
-│   └── requirements.txt      # Dependencias del proyecto
+│   │
+│   └── tests/                # 🧪 Pruebas unitarias sobre la Base de Hechos
 │
-├── frontend/                 # Módulo de Interfaz de Usuario
-│   ├── public/
-│   └── src/                  
+├── frontend/                 # 🖥️ [Interfaz de Usuario]: SPA en React + Vite
+│   ├── src/                  
+│   │   ├── AdquisicionView.jsx # 📥 [Módulo de Adquisición de Conocimiento]
+│   │   ├── ReglasView.jsx      # Visor dinámico de la Base de Conocimiento
+│   │   └── App.jsx             # Flujo del evaluador ciudadano
+│   └── package.json          
 │
-└── README.md                 # Este documento
+└── README.md                 # Este documento de presentación final
 ```
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-| Capa              | Tecnología                                | Para qué                                    |
+| Capa / Módulo SBC | Tecnología                                | Justificación Técnica                       |
 | ----------------- | ----------------------------------------- | ------------------------------------------- |
-| Lenguaje          | **Python 3.12+**                          | Motor del SBC                               |
-| API               | **FastAPI**                               | Comunicar frontend ↔ backend                |
-| Validación        | **Pydantic**                              | Validar los valores legales de entrada      |
-| BC                | **CLIPS (.clp)**                          | Reglas con sintaxis nativa de CLIPS         |
-| BH                | **Memoria de CLIPS**                      | Hechos iniciales + conclusiones insertadas  |
-| Motor             | **CLIPS (vía clipspy)**                   | Inferencia real en C (Forward Chaining)     |
-| Explicación       | **Python propio**                         | Traza de reglas disparadas                  |
-| Tests             | **pytest**                                | Verificación de reglas y casos de prueba    |
-| Documentación API | **Swagger/OpenAPI (FastAPI)**             | Interfaz para probar el backend fácilmente  |
-| BD                | **No inicialmente**                       | El SBC vive en memoria durante la ejecución |
+| **Motor & API**   | **Python 3.12+ / FastAPI**                | Orquestación eficiente y robusta del SBC.   |
+| **Base de Conoc** | **CLIPS (.clp)**                          | Estándar de la industria para reglas lógicas|
+| **Base de Hechos**| **Memoria C-CLIPS**                       | Inserción de hechos (`assert`) en tiempo real|
+| **Inferencia**    | **clipspy (C-Binding)**                   | Velocidad de ejecución nativa en C          |
+| **Validación**    | **Pydantic V2**                           | Garantiza que los hechos sean válidos       |
+| **Interfaz (UI)** | **React.js + Vite + Tailwind CSS**        | Renderizado rápido y diseño centrado en UX  |
 
 ---
 
-## 🚀 Cómo Ejecutar el Proyecto (Backend)
+## 🚀 Cómo Ejecutar el Proyecto
 
-Todo el núcleo del Sistema Experto y la API ya están implementados. Sigue estos pasos para levantar el servidor localmente:
+El sistema está diseñado para ejecutarse localmente de forma modular, levantando el Motor Lógico (Backend) y el Sistema de Consulta (Frontend) de manera independiente.
 
+### 1. Iniciar el Núcleo del SBC (Backend)
 1. **Abre tu terminal** y ubícate en la carpeta del backend:
    ```bash
    cd backend
    ```
-
-2. **Instala las dependencias**:
+2. **Instala las dependencias lógicas**:
    ```bash
    pip install -r requirements.txt
    ```
-
 3. **Inicia el servidor FastAPI**:
    ```bash
    uvicorn app.main:app --reload
    ```
+   *El motor de inferencia ahora expone sus capacidades en `http://localhost:8000/docs` (Swagger).*
 
-4. **Prueba la API y el Motor**:
-   Abre tu navegador en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). 
-   Ahí verás la interfaz de Swagger (OpenAPI) donde puedes probar el endpoint `/api/evaluar`. Ingresa un JSON de prueba y observa cómo el sistema te devuelve el nivel de riesgo y la justificación generada por el Módulo de Explicación.
-
-### 🧪 Ejecutar Pruebas Unitarias
-Para verificar el funcionamiento lógico del encadenamiento hacia adelante y la Base de Hechos sin levantar el servidor:
-```bash
-cd backend
-python tests/test_inference.py
-```
-
----
-
-## 🖥️ Cómo Ejecutar el Frontend (Interfaz de Usuario)
-
-Interfaz construida en **React + Vite** que cuenta con 4 módulos principales:
-1. **Evaluación (Ciudadano):** Guía en 4 pasos (Terreno → Clima → Ubicación → Vivienda) con tooltips pedagógicos, iconografía y diseño de *Hero Section* (Parallax vector) para que un ciudadano sin experiencia geológica entienda y evalúe su nivel de riesgo.
-2. **Portal de Expertos (Adquisición):** Formulario estricto y bandeja de entrada (dashboard) donde un especialista puede proponer una regla técnica (SI/ENTONCES) que entrará en etapa de validación.
-3. **Base de Reglas (Diccionario SBC):** Visor que extrae directamente del motor CLIPS (`rules.clp`) y traduce de forma dinámica las 66 reglas a un formato legible por humanos.
-4. **Metodología:** Explicación técnica de la arquitectura CENEPRED.
-
-1. Con el backend corriendo en el puerto `8000`, abre otra terminal:
+### 2. Iniciar el Módulo de Interfaz de Usuario (Frontend)
+1. Con el backend corriendo en el puerto `8000`, abre una **nueva terminal**:
    ```bash
    cd frontend
+   ```
+2. **Instala las dependencias y ejecuta el servidor de UI**:
+   ```bash
    pnpm install
    pnpm run dev
    ```
-2. Abre [http://localhost:5173](http://localhost:5173). Vite redirige `/api` al backend, así que no hace falta configurar CORS en desarrollo.
-
-Para apuntar a un backend desplegado, define `VITE_API_URL` (ej. `VITE_API_URL=https://mi-api.com pnpm run build`).
-
----
-
-## 🌐 Despliegue (link público en Render)
-
-El `Dockerfile` compila el frontend y lo sirve desde el mismo servidor FastAPI, así que es **un solo servicio**: la web en `/`, la API en `/api` y Swagger en `/docs`.
-
-1. Entra a [render.com](https://render.com) e inicia sesión con GitHub.
-2. **New → Blueprint** y elige este repositorio (Render lee `render.yaml`).
-3. Pulsa **Apply**. En unos minutos tendrás una URL como `https://huaicos-chosica.onrender.com`.
-
-Cada `git push` a la rama conectada vuelve a desplegar automáticamente. En el plan gratuito el servicio se duerme tras 15 min sin visitas; la primera carga después tarda ~30–50 s.
+3. Abre [http://localhost:5173](http://localhost:5173) en tu navegador web. El sistema redirigirá automáticamente las consultas internas al Motor de Inferencia subyacente.
